@@ -5,5 +5,6 @@ from . import views
 
 urlpatterns = [
    path('', views.index),
+   path('celery', views.test, name='test'),
    
 ]

@@ -44,8 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Django addons
     'debug_toolbar',
+    'django_celery_results',
+    'django_celery_beat',
     # My apps
-    'binance_data'
+    'binance_data',
 ]
 
 MIDDLEWARE = [
@@ -190,3 +192,14 @@ LOGGING = {
         },
     }
 }
+
+# CELERY SETTING
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SIRIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+
+CELERY_RESULT_BACKEND = 'django-db'
+
+# CELERY BEAT
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
