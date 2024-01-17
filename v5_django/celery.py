@@ -7,6 +7,10 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'v5_django.settings')
 
 app = Celery('v5_django')
 
+# Using a string here means the worker don't have to serialize
+# the configuration object to child processes.
+# - namespace='CELERY' means all celery-related configuration keys
+#   should have a `CELERY_` prefix.
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
 # Celery Beat Settings
@@ -14,7 +18,8 @@ app.conf.beat_schedule = {
     
 }
 
-# Celery Beat Settings
+# Celery Settings
+# Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
 
 @app.task(bind=True)
