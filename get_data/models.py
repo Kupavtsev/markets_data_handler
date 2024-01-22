@@ -27,9 +27,15 @@ class Sector(models.Model):
         verbose_name_plural = 'Sectors'
 
 class AssetSymbol(models.Model):
+    class Kinds(models.TextChoices):
+        BASE = 'B', 'base'
+        FUTURES = 'F', 'futures contract'
+        OPTIONS = 'O', 'options'
+
     name = models.CharField(max_length=50, db_index=True)
     asset_full_name = models.CharField(max_length=100, null=True, blank=True)
     sector = models.ForeignKey('Sector', on_delete=models.PROTECT)
+    type_of_asset = models.CharField(max_length=1, choices=Kinds.choices, default=Kinds.BASE)
 
     def __str__(self):
         return self.name
@@ -41,11 +47,6 @@ class AssetSymbol(models.Model):
 
 class DailyPrices(models.Model):
     
-    class Kinds(models.TextChoices):
-        BASE = 'B', 'base'
-        FUTURES = 'F', 'futures contract'
-        OPTIONS = 'O', 'options'
-
     symbol = models.ForeignKey('AssetSymbol', on_delete=models.PROTECT, default=None)
     session_date = models.DateField(unique=True)
     request_time = models.DateTimeField(unique=True, null=True, blank=True)
@@ -56,7 +57,7 @@ class DailyPrices(models.Model):
     day_volume = models.FloatField(null=True, blank=True)
     day_true_range = models.FloatField(null=True, blank=True)
     day_average_true_range = models.FloatField(null=True, blank=True)
-    type_of_asset = models.CharField(max_length=1, choices=Kinds.choices, default=Kinds.BASE)
+    
 
     class Meta:
         db_table = "daily_prices"

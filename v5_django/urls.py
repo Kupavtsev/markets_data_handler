@@ -27,5 +27,5 @@ if settings.DEBUG:
 
     urlpatterns += [
         path('__debug__/', include(debug_toolbar.urls)),
-        path('', include('binance_data.urls')),
+        path('', include('get_data.urls')),
     ]

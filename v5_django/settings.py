@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django_celery_results',
     'django_celery_beat',
     # My apps
-    'binance_data',
+    'get_data',
 ]
 
 MIDDLEWARE = [
