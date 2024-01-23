@@ -28,7 +28,7 @@ class Sector(models.Model):
 
 class AssetSymbol(models.Model):
     class Kinds(models.TextChoices):
-        BASE = 'B', 'base'
+        BASE = 'S', 'spot'
         FUTURES = 'F', 'futures contract'
         OPTIONS = 'O', 'options'
 
@@ -48,8 +48,8 @@ class AssetSymbol(models.Model):
 class DailyPrices(models.Model):
     
     symbol = models.ForeignKey('AssetSymbol', on_delete=models.PROTECT, default=None)
-    session_date = models.DateField(unique=True)
-    request_time = models.DateTimeField(unique=True, null=True, blank=True)
+    session_date = models.DateField()
+    request_time = models.DateTimeField(null=True, blank=True)
     price_day_open = models.FloatField(null=True, blank=True)
     price_day_high = models.FloatField(null=True, blank=True)
     price_day_low = models.FloatField(null=True, blank=True)
@@ -63,4 +63,5 @@ class DailyPrices(models.Model):
         db_table = "daily_prices"
         verbose_name = 'Symbol Daily Prices (TR, ATR)'
         verbose_name_plural = 'Symbol Daily Prices (TR, ATR)'
-        ordering = ['session_date']
+        ordering = ['-session_date']
+        unique_together = ('symbol', 'session_date')

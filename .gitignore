@@ -87,3 +87,5 @@ venv.bak/
 *.code-workspace
 
 # User
+data.json
+data_dict.json
