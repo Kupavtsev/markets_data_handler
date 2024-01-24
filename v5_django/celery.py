@@ -19,7 +19,7 @@ app.conf.beat_schedule = {
     'get_data_binance_api' : {
         'task': 'get_data.tasks.check_response',
         'schedule': crontab(hour=14, minute=32),
-        # 'args': (2,),   # you can pass this args to send_mail_func(args)
+        # 'args': (2,),   # you can pass this args to check_response(args)
     }
 }
 
