@@ -36,6 +36,7 @@ class AssetSymbol(models.Model):
     asset_full_name = models.CharField(max_length=100, null=True, blank=True)
     sector = models.ForeignKey('Sector', on_delete=models.PROTECT)
     type_of_asset = models.CharField(max_length=1, choices=Kinds.choices, default=Kinds.BASE)
+    # capitalization/OI
 
     def __str__(self):
         return self.name

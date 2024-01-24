@@ -1,6 +1,3 @@
-from django.shortcuts import render
-
-from django.shortcuts import render
 from django.http import HttpResponse
 
 from .tasks import check_response
@@ -12,12 +9,8 @@ from .models import AssetSymbol, DailyPrices
 
     
 def index(request):
-    
-    # assets = AssetSymbol.objects.all()
-    # print('Asets from task: ', assets)
-
     if request.method == 'GET':  
-        s = 'Binance Data Handler\r\n\r\n\r\n'
+        s = 'Quotes Data Handle'
         return HttpResponse(s, content_type='text/plain; charset=utf-8')
     else:
         return HttpResponse('Wrong method: 405')
@@ -28,35 +21,27 @@ def test(request):
     return HttpResponse('api request done')
 
 def add_to_db(request):
-    assets = AssetSymbol.objects.all()
-    # print('Asets from task: ', assets)
-    response = data_from_binance(assets)
-    # print('response: ', response)
-    # save data to DB
-
+    assets : list = AssetSymbol.objects.all()
+    response : dict = data_from_binance(assets)
     
-    # Below experiments... Above Done!
-
-
     for data_name in response.keys():
-        asset = AssetSymbol.objects.get(name=data_name)
-        # print('asset: ', asset, ' ', type(asset))
-        new_session = DailyPrices(
-            session_date=datetime.fromtimestamp(response[data_name][0][0]/1000).strftime("%Y-%m-%d"),
-            request_time=timezone.now(),
-            price_day_open=response[data_name][0][1],
-            price_day_high=response[data_name][0][2],
-            price_day_low=response[data_name][0][3],
-            price_day_close=response[data_name][0][4],
-            day_volume=response[data_name][0][5],
-        )
-        # print('new_session: ', new_session)
-        new_session.symbol = asset
-        # print('new_session with asset: ', new_session)
 
+        asset : str = AssetSymbol.objects.get(name=data_name)
+        session_date = datetime.fromtimestamp(response[data_name][0][0]/1000).strftime("%Y-%m-%d")
+        response_data : list = response[data_name][0]
+
+        new_session : isinstance = DailyPrices(
+            session_date=session_date,
+            request_time=timezone.now(),
+            price_day_open=response_data[1],
+            price_day_high=response_data[2],
+            price_day_low=response_data[3],
+            price_day_close=response_data[4],
+            day_volume=response_data[5],
+        )
+        new_session.symbol : str = asset
         # This is work with first requested Symbol, so it won't work with todays added New symbols.
-        if not DailyPrices.objects.filter(symbol=asset, session_date=datetime.fromtimestamp(response[data_name][0][0]/1000).strftime("%Y-%m-%d")):
+        if not DailyPrices.objects.filter(symbol=asset, session_date=session_date):
             new_session.save()
-        return HttpResponse('the date is actual...')
 
     return HttpResponse('signs created from request...')

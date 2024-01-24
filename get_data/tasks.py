@@ -1,43 +1,34 @@
 from celery import shared_task
+from django.utils import timezone
+from datetime import datetime
+
 from .binance_api import data_from_binance
 from .models import AssetSymbol, DailyPrices
-import json, io
+
 
 @shared_task(bind=True)
 def check_response(self):
-    assets = AssetSymbol.objects.all()
-    # print('Asets from task: ', assets)
-    response = data_from_binance(assets)
-    # print('response: ', response)
-    # save data to DB
-
-    # print(response["ACHUSDT"][0][0])
-    # print(response["ACHUSDT"][0][1])
+    assets : list = AssetSymbol.objects.all()
+    response : dict = data_from_binance(assets)
     
-    # Below experiments... Above Done!
-
-    type_check = AssetSymbol.objects.get(name="ACHUSDT")
-    print('type_check: ', type_check, ' ', type(type_check))
-
     for data_name in response.keys():
-        print('data_name: ', data_name, ' ', type(data_name))
 
-        new_session = DailyPrices(
-            symbol=DailyPrices.objects.filter(symbol=data_name),
-            # symbol=AssetSymbol.objects.filter(name="ACHUSDT"),
-            session_date=response[data_name][0][0],
-            request_time=response[data_name][0][0],
-            price_day_open=response[data_name][0][1],
-            price_day_high=response[data_name][0][2],
-            price_day_low=response[data_name][0][3],
-            price_day_close=response[data_name][0][4],
-            day_volume=response[data_name][0][5],
+        asset : str = AssetSymbol.objects.get(name=data_name)
+        session_date = datetime.fromtimestamp(response[data_name][0][0]/1000).strftime("%Y-%m-%d")
+        response_data : list = response[data_name][0]
+
+        new_session : isinstance = DailyPrices(
+            session_date=session_date,
+            request_time=timezone.now(),
+            price_day_open=response_data[1],
+            price_day_high=response_data[2],
+            price_day_low=response_data[3],
+            price_day_close=response_data[4],
+            day_volume=response_data[5],
         )
-        
-        # import io, json 
-        with io.open('data_dict.json', 'a', encoding='utf-8') as f: 
-            f.write(json.dumps(new_session, indent=1, ensure_ascii=False))
-        
-        new_session.save()
+        new_session.symbol : str = asset
+        # This is work with first requested Symbol, so it won't work with todays added New symbols.
+        if not DailyPrices.objects.filter(symbol=asset, session_date=session_date):
+            new_session.save()
         
     return "done"

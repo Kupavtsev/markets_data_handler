@@ -1,4 +1,6 @@
-Django Binance API Handler with Celery Workers (Redis)
+Python 3.11.2
+
+Django Quotes API Handler with Celery Workers (Redis)
 Postgress data storage
 
 # 1st bash
