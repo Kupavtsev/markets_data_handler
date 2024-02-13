@@ -27,7 +27,7 @@ def data_from_binance(assets) -> dict:
     now = datetime.utcnow()
     # dd/mm/YY H:M:S
     dt_string : str = now.strftime("%Y-%m-%d")
-    YDS : str = (datetime.utcnow()-timedelta(days=1)).strftime("%Y-%m-%d")
+    YDS : str = (datetime.utcnow()-timedelta(days=4)).strftime("%Y-%m-%d")
     client : isinstance = security()
     fh_klines : dict = {}
     for asset in assets:

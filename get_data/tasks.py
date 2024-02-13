@@ -26,7 +26,7 @@ def check_response(self):
                 price_day_close=each_date[4],
                 day_volume=each_date[5],
             )
-            new_session.symbol : str = asset
+            new_session.symbol = asset
             # This is work with first requested Symbol, so it won't work with todays added New symbols.
             if not DailyPrices.objects.filter(symbol=asset, session_date=session_date):
                 new_session.save()
