@@ -70,6 +70,29 @@ def add_to_db(request):
 
     return HttpResponse('signs created from request...')
 
+period = 14
+#  sum / period
+# Doesn't give me nessecary result yet.
+def atr(request):
+    assets : list = AssetSymbol.objects.all()
+    list_of_trs = []
+    for asset in assets:
+        sessions = DailyPrices.objects.filter(symbol=asset)[1:15]
+        for session in sessions:
+            list_of_trs.append([str(asset), str(session.session_date), session.day_true_range])
+    
+    print(list_of_trs)
+    print(len(list_of_trs))
+
+    # df = pd.DataFrame(list_of_trs)
+    # print(df)
+
+    # for el in list_of_trs:
+    #     for x in el:
+            # print(x)
+
+    return HttpResponse('atrs done')
+
 # It doesn't correct!
 def tr_total(request):
     # assets = AssetSymbol.objects.all()
