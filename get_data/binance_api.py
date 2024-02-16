@@ -17,7 +17,7 @@ def security() -> isinstance:
     api_secret = os.getenv("Secret")
     client : isinstance = Client(api_key, api_secret)
     status : classmethod = client.get_system_status()
-    print(status)
+    print('status: ', status)
    
     return client
 
