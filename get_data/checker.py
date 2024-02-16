@@ -21,7 +21,7 @@ def tr(df):
         price_day_high = float(df[el][number_of_session-1][2])
         price_day_low = float(df[el][number_of_session-1][3])
         price_day_close_prev = float(df[el][number_of_session-2][4])
-        tr = max((price_day_high - price_day_low), (price_day_high - price_day_close_prev), (price_day_low - price_day_close_prev))
+        tr = max((price_day_high - price_day_low), (price_day_high - price_day_close_prev), (price_day_close_prev - price_day_low))
         session_date = datetime.fromtimestamp(df[el][number_of_session-1][0]/1000).strftime("%Y-%m-%d")   #date
         if session_date != today_string:
             result.append([el, session_date, tr])
@@ -43,13 +43,24 @@ def cycle_of_response(respone):
     return result
     
 
+def atr_calc_assist(trs):
+    trs_sum = 0
+    for tr in trs:
+        trs_sum += tr
+    return trs_sum
 
-def atr_calc():
-    pass
-
+def atr_calc(asset):
+    print(asset)
+    sessions = DailyPrices.objects.filter(symbol=asset)
+    atr = 0
+    for session in sessions[1:14]:
+        print(session.symbol, session.session_date, session.day_true_range, '=>', type(session.day_true_range))
+        atr += session.day_true_range 
+        # print(atr)
+    print(atr/14)
 
 def asset_cycler():
-    # assets : list = AssetSymbol.objects.all()
-    assets = ['ACHUSDT', 'FETUSDT']
+    assets : list = AssetSymbol.objects.all()
+    # assets = ['ACHUSDT', 'FETUSDT']
     for asset in assets:
-        atr_calc()
+        atr_calc(asset.id)

@@ -10,7 +10,7 @@ from .tasks import check_response
 from .binance_api import data_from_binance
 from .models import AssetSymbol, DailyPrices
 
-from .checker import cycle_of_response
+from .checker import cycle_of_response, asset_cycler
 
     
 def index(request):
@@ -70,19 +70,22 @@ def add_to_db(request):
 
     return HttpResponse('signs created from request...')
 
+
 period = 14
 #  sum / period
 # Doesn't give me nessecary result yet.
 def atr(request):
-    assets : list = AssetSymbol.objects.all()
-    list_of_trs = []
-    for asset in assets:
-        sessions = DailyPrices.objects.filter(symbol=asset)[1:15]
-        for session in sessions:
-            list_of_trs.append([str(asset), str(session.session_date), session.day_true_range])
+    asset_cycler()
+
+    # assets : list = AssetSymbol.objects.all()
+    # list_of_trs = []
+    # for asset in assets:
+    #     sessions = DailyPrices.objects.filter(symbol=asset)[1:15]
+    #     for session in sessions:
+    #         list_of_trs.append([str(asset), str(session.session_date), session.day_true_range])
     
-    print(list_of_trs)
-    print(len(list_of_trs))
+    # print(list_of_trs)
+    # print(len(list_of_trs))
 
     # df = pd.DataFrame(list_of_trs)
     # print(df)
