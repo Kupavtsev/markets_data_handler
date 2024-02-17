@@ -22,12 +22,12 @@ def security() -> isinstance:
     return client
 
 # Request Binance Data. Futures assets.
-def data_from_binance(assets) -> dict:
+def data_from_binance(assets, request_days) -> dict:
 
     now = datetime.utcnow()
     # dd/mm/YY H:M:S
     dt_string : str = now.strftime("%Y-%m-%d")
-    YDS : str = (datetime.utcnow()-timedelta(days=16)).strftime("%Y-%m-%d")
+    YDS : str = (datetime.utcnow()-timedelta(days=request_days)).strftime("%Y-%m-%d")
     client : isinstance = security()
     fh_klines : dict = {}
     for asset in assets:

@@ -1,16 +1,16 @@
-from django.db.models import Q
+# from django.db.models import Q
 from django.http import HttpResponse
 # from django.utils import timezone
 # from datetime import datetime
 
-import numpy as np
-import pandas as pd
+# import numpy as np
+# import pandas as pd
 
 from .tasks import check_response
 from .binance_api import data_from_binance
-from .models import AssetSymbol, DailyPrices
+from .models import AssetSymbol
 
-from .checker import response_to_db, atr_calc_cycler, trs_save_to_db
+from .checker import response_to_db, atr_calc_for_last_session, trs_save_to_db
 
     
 def index(request):
@@ -28,7 +28,15 @@ def test(request):
 # This function request the data, add this data to DB, calc TRs from this data and again add it to DB sessions
 def add_to_db(request):
     assets : list = AssetSymbol.objects.all()
-    response : dict = data_from_binance(assets)
+    request_days = 2
+    try:
+        response : dict = data_from_binance(assets, request_days)
+    except Exception:
+        print(Exception)
+        # send alert
+        # create delay
+        # print(ConnectionError)
+        response = {}
     print('response: ', type(response), len(response))
 
     # example of response
@@ -36,11 +44,12 @@ def add_to_db(request):
     
     # Realise it with Class and Methods, response would be atr of Class inst
     if len(response) > 1:
-        # add to DB data from response
         response_to_db(response)
-    
         trs_save_to_db(response)
         # need check  if empty bd
-        atr_calc_cycler()
+        atr_calc_for_last_session('atr_today')
+        atr_calc_for_last_session('atr_total')
+    else:
+        print('no response')
 
     return HttpResponse('signs created from request...')
