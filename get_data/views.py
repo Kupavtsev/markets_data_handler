@@ -48,9 +48,14 @@ def add_to_db(request):
         trs_save_to_db(response)
         # need check if empty bd
         atr_calc_for_last_session('atr_today')
-        atr_calc_for_last_session('atr_total')
+        
     # elif response != None:
     else:
         print('no response')
 
     return HttpResponse('signs created from request...')
+
+
+def atr(request):
+    atr_calc_for_last_session('atr_total')
+    return HttpResponse('atrs...')

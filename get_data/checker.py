@@ -1,4 +1,4 @@
-# import numpy as np
+import numpy as np
 import pandas as pd
 from datetime import datetime
 from django.utils import timezone
@@ -95,20 +95,63 @@ def atr_calc_for_last_session(switcher):
             atr_calc(asset.id)
     elif switcher == 'atr_total':
         for asset in assets:
-            atr_total(asset.id)
+            atr_total_calc_once2(asset.id)
 
 # Wrong method, missing sessions
-def atr_total(asset):
-    sessions = DailyPrices.objects.filter(symbol=asset).filter(day_average_true_range=None)
-    if len(sessions) > 15:
+# def atr_total(asset):
+#     sessions = DailyPrices.objects.filter(symbol=asset).filter(day_average_true_range=None)
+#     if len(sessions) > 15:
+#         print('you can calc')
+#         atr = 0
+#         for session in sessions[1:15]:
+#             atr += session.day_true_range
+#         object = sessions[0]
+#         object.day_average_true_range = format(atr/14, '.5f')
+#         object.save()
+#             # print(session.symbol, session.session_date, session.day_true_range, \
+#             #        type(session.day_true_range), session.day_average_true_range)
+#         atr_total(asset)    
+#     else: print('not enaugh data')
+
+
+def atr_total_calc_once(asset):
+    sessions = DailyPrices.objects.filter(symbol=asset)
+
+    count = 18
+    while count > 15:
+    # if len(sessions) > 15:
         print('you can calc')
         atr = 0
         for session in sessions[1:15]:
+            print('session =>', session.symbol, session.session_date)
             atr += session.day_true_range
         object = sessions[0]
+        print('ATR object =>', object.symbol, object.session_date)
         object.day_average_true_range = format(atr/14, '.5f')
         object.save()
-            # print(session.symbol, session.session_date, session.day_true_range, \
-            #        type(session.day_true_range), session.day_average_true_range)
-        atr_total(asset)    
-    else: print('not enaugh data')
+        count -= 1
+        print(count)
+        # atr_total_calc_once(asset)
+    
+    else: print('finished')
+
+    # for el in range(len(sessions)):
+    #     atr_total_calc_once(asset)
+# Find the session without ATR, and work with it! Cycling...
+    
+
+def atr_total_calc_once2(asset):
+    sessions = DailyPrices.objects.filter(symbol=asset)
+    ses_list = []
+    for ses in sessions:
+        ses_dict = {}
+        ses_dict['symbol'] = str(ses.symbol)
+        ses_dict['session'] = str(ses.session_date)
+        ses_dict['tr'] = ses.day_true_range
+        ses_dict['atr'] = ses.day_average_true_range
+        ses_list.append(ses_dict)
+    df = pd.DataFrame(ses_list)
+    print(df)
+    df['atr'] = np.median(df.tr[1:14])      # !!! FSIX IT
+    # df = np.median(df.tr[1:14])
+    print(df)
