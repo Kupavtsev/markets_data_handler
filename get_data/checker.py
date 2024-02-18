@@ -97,10 +97,18 @@ def atr_calc_for_last_session(switcher):
         for asset in assets:
             atr_total(asset.id)
 
+# Wrong method, missing sessions
 def atr_total(asset):
     sessions = DailyPrices.objects.filter(symbol=asset).filter(day_average_true_range=None)
-    if len(sessions) > 14:
-        for session in sessions:
-            # print('you can calc')
-            print(session.symbol, session.session_date, session.day_true_range, session.day_average_true_range)
+    if len(sessions) > 15:
+        print('you can calc')
+        atr = 0
+        for session in sessions[1:15]:
+            atr += session.day_true_range
+        object = sessions[0]
+        object.day_average_true_range = format(atr/14, '.5f')
+        object.save()
+            # print(session.symbol, session.session_date, session.day_true_range, \
+            #        type(session.day_true_range), session.day_average_true_range)
+        atr_total(asset)    
     else: print('not enaugh data')

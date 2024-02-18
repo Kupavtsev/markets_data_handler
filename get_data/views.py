@@ -46,9 +46,10 @@ def add_to_db(request):
     if len(response) > 1:
         response_to_db(response)
         trs_save_to_db(response)
-        # need check  if empty bd
+        # need check if empty bd
         atr_calc_for_last_session('atr_today')
         atr_calc_for_last_session('atr_total')
+    # elif response != None:
     else:
         print('no response')
 
