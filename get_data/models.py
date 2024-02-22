@@ -66,3 +66,12 @@ class DailyPrices(models.Model):
         verbose_name_plural = 'Symbol Daily Prices (TR, ATR)'
         ordering = ['-session_date']
         unique_together = ('symbol', 'session_date')
+
+class ATR(models.Model):
+    symbol = models.CharField(max_length=50, db_index=True)
+    session_date = models.DateField()
+    day_average_true_range = models.FloatField(null=True, blank=True)
+
+    class Meta:
+        db_table = "atr"
+        unique_together = ('symbol', 'session_date')

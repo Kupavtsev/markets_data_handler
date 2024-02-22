@@ -28,7 +28,7 @@ def test(request):
 # This function request the data, add this data to DB, calc TRs from this data and again add it to DB sessions
 def add_to_db(request):
     assets : list = AssetSymbol.objects.all()
-    request_days = 2
+    request_days = 20
     try:
         response : dict = data_from_binance(assets, request_days)
     except Exception:

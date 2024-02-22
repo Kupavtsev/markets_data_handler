@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime
 from django.utils import timezone
 
-from .models import AssetSymbol, DailyPrices
+from .models import ATR, AssetSymbol, DailyPrices
 
 today = datetime.utcnow()
 today_string = today.strftime("%Y-%m-%d")
@@ -95,7 +95,7 @@ def atr_calc_for_last_session(switcher):
             atr_calc(asset.id)
     elif switcher == 'atr_total':
         for asset in assets:
-            atr_total_calc_once2(asset.id)
+            atr_total_calc_once(asset.id)
 
 # Wrong method, missing sessions
 # def atr_total(asset):
@@ -115,25 +115,38 @@ def atr_calc_for_last_session(switcher):
 
 
 def atr_total_calc_once(asset):
-    sessions = DailyPrices.objects.filter(symbol=asset)
+    # sessions = DailyPrices.objects.filter(symbol=asset)
+    sessions = DailyPrices.objects.filter(symbol=asset, day_average_true_range=None)
+    sessions2 = ATR.objects.filter(symbol=asset)
 
-    count = 18
-    while count > 15:
-    # if len(sessions) > 15:
-        print('you can calc')
-        atr = 0
-        for session in sessions[1:15]:
-            print('session =>', session.symbol, session.session_date)
-            atr += session.day_true_range
-        object = sessions[0]
-        print('ATR object =>', object.symbol, object.session_date)
-        object.day_average_true_range = format(atr/14, '.5f')
-        object.save()
-        count -= 1
-        print(count)
-        # atr_total_calc_once(asset)
-    
-    else: print('finished')
+    try:
+        count = len(sessions)
+        # count = 18
+        while count > 10:
+        # if len(sessions) > 15:
+            print('you can calc')
+            atr = 0
+            for session in sessions[1:15]:
+                print('session =>', session.symbol, session.session_date, session.day_average_true_range)
+                atr += session.day_true_range
+            object = sessions[0]
+            print('ATR object =>', object.symbol, object.session_date)
+            object.day_average_true_range = format(atr/14, '.5f')
+            object2 = ATR(
+                symbol = session.symbol,
+                session_date = object.session_date,
+                day_average_true_range = object.day_average_true_range
+            )
+            object2.session_date = sessions[0].session_date
+            # object2.day_average_true_range = format(atr/14, '.5f')
+            print(object2.day_average_true_range)
+            # object.save()
+            object2.save()
+            count -= 1
+            print(count)
+            # atr_total_calc_once(asset)
+    except Exception as e: print(e)
+    finally: print('finished')
 
     # for el in range(len(sessions)):
     #     atr_total_calc_once(asset)
