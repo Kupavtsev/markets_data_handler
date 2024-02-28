@@ -69,9 +69,15 @@ class DailyPrices(models.Model):
 
 class ATR(models.Model):
     symbol = models.CharField(max_length=50, db_index=True)
-    session_date = models.DateField()
-    day_average_true_range = models.FloatField(null=True, blank=True)
+    session = models.DateField()
+    Open = models.FloatField(null=True, blank=True)
+    High = models.FloatField(null=True, blank=True)
+    Low = models.FloatField(null=True, blank=True)
+    Close = models.FloatField(null=True, blank=True)
+    Volume = models.FloatField(null=True, blank=True)
+    tr = models.FloatField(null=True, blank=True)
+    atr = models.FloatField(null=True, blank=True)
 
     class Meta:
         db_table = "atr"
-        unique_together = ('symbol', 'session_date')
+        unique_together = ('symbol', 'session')

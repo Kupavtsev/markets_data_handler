@@ -163,9 +163,11 @@ def atr_total_calc_once2(asset):
         ses_dict = {}
         ses_dict['symbol'] = str(ses.symbol)
         ses_dict['session'] = str(ses.session_date)
+        ses_dict['Open'] = ses.price_day_open
         ses_dict['High'] = ses.price_day_high
         ses_dict['Low'] = ses.price_day_low
         ses_dict['Close'] = ses.price_day_close
+        ses_dict['Volume'] = ses.day_volume
         ses_dict['tr'] = 0
         ses_dict['atr'] = 0
         ses_list.append(ses_dict)
@@ -187,8 +189,9 @@ def atr_total_calc_once2(asset):
     model_instances = []
     for row in df.iterrows():
         data = row[1].to_dict()
-        print(data)
-    #     model_instance = DailyPrices(**data)
-    #     model_instances.append(model_instance)
+        # print(data)
+        model_instance = ATR(**data)
+        model_instances.append(model_instance)
 
     # print(model_instances)
+    ATR.objects.bulk_create(model_instances)

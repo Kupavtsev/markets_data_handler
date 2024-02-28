@@ -8,7 +8,7 @@ class DailyPricesAdmin(admin.ModelAdmin):
     search_fields = ('symbol', 'session_date')
 
 class ATRsAdmin(admin.ModelAdmin):
-    list_display = ('session_date', 'symbol', 'day_average_true_range')
+    list_display = ('session', 'symbol', 'atr')
     list_display_links = ('symbol',)
 
 
