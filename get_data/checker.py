@@ -194,4 +194,10 @@ def atr_total_calc_once2(asset):
         model_instances.append(model_instance)
 
     # print(model_instances)
-    ATR.objects.bulk_create(model_instances)
+    ATR.objects.bulk_create(
+        model_instances,
+        update_conflicts=True,
+        # unique_fields=['symbol', 'session', 'Open', 'High', 'Low', 'Close', 'tr'],
+        unique_fields=['symbol', 'session'],
+        update_fields=['atr'],
+        )
