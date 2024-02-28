@@ -95,7 +95,7 @@ def atr_calc_for_last_session(switcher):
             atr_calc(asset.id)
     elif switcher == 'atr_total':
         for asset in assets:
-            atr_total_calc_once(asset.id)
+            atr_total_calc_once2(asset.id)
 
 # Wrong method, missing sessions
 # def atr_total(asset):
@@ -118,20 +118,22 @@ def atr_total_calc_once(asset):
     # sessions = DailyPrices.objects.filter(symbol=asset)
     sessions = DailyPrices.objects.filter(symbol=asset, day_average_true_range=None)
     sessions2 = ATR.objects.filter(symbol=asset)
+    # sessions2 = ATR.objects.all()
 
     try:
         count = len(sessions)
         # count = 18
         while count > 10:
         # if len(sessions) > 15:
-            print('you can calc')
+            # print('you can calc')
             atr = 0
             for session in sessions[1:15]:
-                print('session =>', session.symbol, session.session_date, session.day_average_true_range)
+                # print('session =>', session.symbol, session.session_date, session.day_average_true_range)
                 atr += session.day_true_range
             object = sessions[0]
-            print('ATR object =>', object.symbol, object.session_date)
             object.day_average_true_range = format(atr/14, '.5f')
+            print('ATR object =>', object.symbol, object.session_date, object.day_average_true_range)
+
             object2 = ATR(
                 symbol = session.symbol,
                 session_date = object.session_date,
@@ -139,9 +141,10 @@ def atr_total_calc_once(asset):
             )
             object2.session_date = sessions[0].session_date
             # object2.day_average_true_range = format(atr/14, '.5f')
-            print(object2.day_average_true_range)
+            print('object2: ', object2.day_average_true_range)
             # object.save()
-            object2.save()
+            # if not object2.session_date:
+            #     object2.save()
             count -= 1
             print(count)
             # atr_total_calc_once(asset)
@@ -167,27 +170,25 @@ def atr_total_calc_once2(asset):
         ses_dict['atr'] = 0
         ses_list.append(ses_dict)
     df = pd.DataFrame(ses_list)
-    print(df)
-    print('*'*9, 'after')
-    # 0
-    # df['atr'] = ( df['atr'].shift(1)*13 + df['tr'] ) /  14  # correct
-    # 1 tr - correct
-    # df['tr'] = pd.concat([df.High.sub(df.Low), df.High.sub(df.Close.shift(-1)).abs(), df.Low.sub(df.Close.shift(-1)).abs()], axis=1).max(1)
-    # df['atr'] = pd.concat([df.High.sub(df.Low), df.High.sub(df.Close.shift(-1)).abs(), df.Low.sub(df.Close.shift(-1)).abs()], axis=1).max(1).ewm(span=14).mean()
-    # 2 tr - correct
+    # print(df)
+    df = df.sort_index(ascending=False)
+    # print('*'*9, 'after')
     period = 14
     tr1 = abs(df['High'] - df['Low'])
-    tr2 = abs(df['High'] - df['Close'].shift(-1))
-    tr3 = abs(df['Low'] - df['Close'].shift(-1))
+    tr2 = abs(df['High'] - df['Close'].shift(1))
+    tr3 = abs(df['Low'] - df['Close'].shift(1))
     ranges = pd.concat([tr1, tr2, tr3], axis=1)
     tr = ranges.max(axis=1)
     df['tr'] = tr
-    # not correct
-    atr_all = tr.rolling(period).sum()/period
-    # df['atr'] = atr_all     # correct calc but wrong rows of column
+    atr_all = tr.shift(1).rolling(period).sum()/period
     df['atr'] = round(atr_all, 6)
-    # df['atr'] = round(atr_all.iloc[-1], 6)
-    # 3
-    # df['atr'] = tr.ewm(alpha=1/14).mean()
-    # df['atr'] = df['tr'].rolling(14).mean()
-    print(df)
+    # print(df)
+
+    model_instances = []
+    for row in df.iterrows():
+        data = row[1].to_dict()
+        print(data)
+    #     model_instance = DailyPrices(**data)
+    #     model_instances.append(model_instance)
+
+    # print(model_instances)
