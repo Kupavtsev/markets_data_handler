@@ -12,7 +12,7 @@ headers = ['Kline open time', 'Open price', 'High price', 'Low price', 'Close pr
 # SECRET INFO
 # Connection with Binance API
 def security() -> isinstance:
-   
+    print('security func')
     api_key = os.getenv("API")
     api_secret = os.getenv("Secret")
     client : isinstance = Client(api_key, api_secret)
@@ -23,7 +23,7 @@ def security() -> isinstance:
 
 # Request Binance Data. Futures assets.
 def data_from_binance(assets, request_days) -> dict:
-
+    print('data_from_binance func')
     now = datetime.utcnow()
     # dd/mm/YY H:M:S
     dt_string : str = now.strftime("%Y-%m-%d")

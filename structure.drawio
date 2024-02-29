@@ -1,0 +1,34 @@
+<mxfile host="Electron" modified="2024-02-29T11:47:59.569Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.5 Chrome/114.0.5735.243 Electron/25.3.1 Safari/537.36" etag="31kZfSKu2WhlM0Lt3gi5" version="21.6.5" type="device">
+  <diagram name="Page-1" id="1nn09hrnUkrgIzbbW_3l">
+    <mxGraphModel dx="864" dy="835" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Tu3MrDsO9_sg_NbxwByG-1" value="get_data" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Tu3MrDsO9_sg_NbxwByG-2" value="response&lt;br&gt;binance_api&lt;br&gt;recive =&amp;gt; &lt;br&gt;(asset symbols: list, number of days: int)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="180" width="240" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="Tu3MrDsO9_sg_NbxwByG-3" value="return =&amp;gt; dict of symbols &lt;br&gt;(session, OHLC, volume)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="180" width="210" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="Tu3MrDsO9_sg_NbxwByG-4" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="Tu3MrDsO9_sg_NbxwByG-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="280" y="234.5" as="sourcePoint" />
+            <mxPoint x="350" y="234.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Tu3MrDsO9_sg_NbxwByG-7" value="save recieved data to DB&lt;br&gt;&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;response_to_db&lt;span style=&quot;color: #222222;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #001080;&quot;&gt;response&lt;/span&gt;&lt;span style=&quot;color: #222222;&quot;&gt;)&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="350" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="Tu3MrDsO9_sg_NbxwByG-10" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="Tu3MrDsO9_sg_NbxwByG-3" target="Tu3MrDsO9_sg_NbxwByG-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="290" as="sourcePoint" />
+            <mxPoint x="290" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

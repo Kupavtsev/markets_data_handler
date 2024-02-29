@@ -2,18 +2,33 @@ import numpy as np
 import pandas as pd
 from datetime import datetime
 from django.utils import timezone
+import websocket, json
 
 from .models import ATR, AssetSymbol, DailyPrices
 
 today = datetime.utcnow()
 today_string = today.strftime("%Y-%m-%d")
 
-# example of response
-# RESPONSE = {'ACHUSDT': [[1707436800000, '0.0182340', '0.0189570', '0.0182320', '0.0188610', '311960221', 1707523199999, '5815175.2732960', 70089, '146275523', '2727169.1899120', '0'], [1707523200000, '0.0188650', '0.0190400', '0.0184000', '0.0186680', '225214253', 1707609599999, '4211677.3072640', 57301, '112440056', '2103266.2089040', '0'], [1707609600000, '0.0186690', '0.0190300', '0.0184100', '0.0184990', '204383454', 1707695999999, '3833299.9845460', 50930, '97332304', '1825910.8149450', '0'], [1707696000000, '0.0184990', '0.0194260', '0.0181210', '0.0193350', '346107424', 1707782399999, '6463893.8764640', 87435, '163548586', '3052513.2204600', '0'], [1707782400000, '0.0193360', '0.0195310', '0.0187180', '0.0189990', '325356559', 1707868799999, '6241221.8233410', 86017, '142592272', '2737032.7255910', '0']], 'FETUSDT': [[1707436800000, '0.5593000', '0.6188000', '0.5569000', '0.6086000', '120998412', 1707523199999, '71889245.7464000', 353886, '58750794', '34891541.3728000', '0'], [1707523200000, '0.6086000', '0.6348000', '0.6008000', '0.6281000', '88518542', 1707609599999, '54793418.1794000', 279741, '44328109', '27445260.0303000', '0'], [1707609600000, '0.6281000', '0.6486000', '0.6219000', '0.6312000', '77848458', 1707695999999, '49446598.9975000', 250903, '36569264', '23232663.9894000', '0'], [1707696000000, '0.6313000', '0.6740000', '0.6217000', '0.6677000', '88585850', 1707782399999, '57352445.1929000', 309176, '42504687', '27554197.5026000', '0'], [1707782400000, '0.6677000', '0.6879000', '0.6498000', '0.6729000', '88639788', 1707868799999, '59418743.1388000', 334964, '42232156', '28321355.2890000', '0']]}
+# **************************************************
+# Websocket part
+cc = 'btcusdt'
+interval = '1s'
+socket = f'wss://stream.binance.com:9443/ws/{cc}@kline_{interval}'
 
-# df = pd.DataFrame(RESPONSE)
-# assets_list = df.columns
-# number_of_assets = len(df.columns)
+ws = websocket
+
+def on_message(ws, message):
+    print(message)
+
+def on_close(ws, close_status_code, close_msg):
+    print("### closed ###")
+
+ws = websocket.WebSocketApp(socket, on_message=on_message, on_close=on_close)
+ws.run_forever()
+print(ws)
+
+# **************************************************
+
 
 
 def response_to_db(response):
@@ -52,7 +67,6 @@ def tr(df):
     
     return result       # List of Lists (asset, timestamp, TR)
         
-
 # cycle of deleting last element to calculate TRs
 def cycle_of_response(respone):
     df = pd.DataFrame(respone)
@@ -76,7 +90,6 @@ def trs_save_to_db(response):
                     object.day_true_range = format(each[2], '.5f')
                     object.save()
 
-
 # ATR calculator for today
 def atr_calc(asset):
     sessions = DailyPrices.objects.filter(symbol=asset)
@@ -96,23 +109,6 @@ def atr_calc_for_last_session(switcher):
     elif switcher == 'atr_total':
         for asset in assets:
             atr_total_calc_once2(asset.id)
-
-# Wrong method, missing sessions
-# def atr_total(asset):
-#     sessions = DailyPrices.objects.filter(symbol=asset).filter(day_average_true_range=None)
-#     if len(sessions) > 15:
-#         print('you can calc')
-#         atr = 0
-#         for session in sessions[1:15]:
-#             atr += session.day_true_range
-#         object = sessions[0]
-#         object.day_average_true_range = format(atr/14, '.5f')
-#         object.save()
-#             # print(session.symbol, session.session_date, session.day_true_range, \
-#             #        type(session.day_true_range), session.day_average_true_range)
-#         atr_total(asset)    
-#     else: print('not enaugh data')
-
 
 def atr_total_calc_once(asset):
     # sessions = DailyPrices.objects.filter(symbol=asset)
@@ -155,7 +151,6 @@ def atr_total_calc_once(asset):
     #     atr_total_calc_once(asset)
 # Find the session without ATR, and work with it! Cycling...
     
-
 def atr_total_calc_once2(asset):
     sessions = DailyPrices.objects.filter(symbol=asset)
     ses_list = []
