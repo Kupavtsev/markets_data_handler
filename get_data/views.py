@@ -1,6 +1,10 @@
 # from django.db.models import Q
 from django.http import HttpResponse
 # from django.utils import timezone
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from get_data.serializers import ATRSerializer
 # from datetime import datetime
 
 # import numpy as np
@@ -8,7 +12,7 @@ from django.http import HttpResponse
 
 from .tasks import check_response
 from .binance_api import data_from_binance
-from .models import AssetSymbol
+from .models import AssetSymbol, ATR
 
 from .checker import response_to_db, atr_calc_for_last_session, trs_save_to_db
 
@@ -59,3 +63,11 @@ def add_to_db(request):
 def atr(request):
     atr_calc_for_last_session('atr_total')
     return HttpResponse('atrs...')
+
+
+@api_view(['GET', 'POST'])
+def ohlc_atr(request):
+    if request.method == 'GET':
+        data = ATR.objects.all()
+        serializer = ATRSerializer(data, many=True)
+        return Response(serializer.data)

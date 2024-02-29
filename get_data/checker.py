@@ -11,21 +11,21 @@ today_string = today.strftime("%Y-%m-%d")
 
 # **************************************************
 # Websocket part
-cc = 'btcusdt'
-interval = '1s'
-socket = f'wss://stream.binance.com:9443/ws/{cc}@kline_{interval}'
+# cc = 'btcusdt'
+# interval = '1s'
+# socket = f'wss://stream.binance.com:9443/ws/{cc}@kline_{interval}'
 
-ws = websocket
+# ws = websocket
 
-def on_message(ws, message):
-    print(message)
+# def on_message(ws, message):
+#     print(message)
 
-def on_close(ws, close_status_code, close_msg):
-    print("### closed ###")
+# def on_close(ws, close_status_code, close_msg):
+#     print("### closed ###")
 
-ws = websocket.WebSocketApp(socket, on_message=on_message, on_close=on_close)
-ws.run_forever()
-print(ws)
+# ws = websocket.WebSocketApp(socket, on_message=on_message, on_close=on_close)
+# ws.run_forever()
+# print(ws)
 
 # **************************************************
 
@@ -180,7 +180,10 @@ def atr_total_calc_once2(asset):
     atr_all = tr.shift(1).rolling(period).sum()/period
     df['atr'] = round(atr_all, 6)
     # print(df)
-
+    
+    # NaN not accepted by JSON Serializers
+    df = df.fillna(0)
+    
     model_instances = []
     for row in df.iterrows():
         data = row[1].to_dict()
