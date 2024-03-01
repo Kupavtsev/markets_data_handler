@@ -1,0 +1,87 @@
+{% extends 'get_data/layout.html' %}
+{% load static %}
+{% block title %}
+Main Page
+{% endblock %}
+{% block css %}
+<style>
+</style>
+{% endblock %}
+{% block body %}
+<div class="container-fluid">
+    <h1>Global Situation</h1>
+
+    <div class="container-fluid text-center">
+        <div class="row">
+            <div class="col">
+                sector
+            </div>
+            <div class="col">
+                asset
+            </div>
+            <div class="col">
+                price
+            </div>
+            <div class="col">
+                last_two_ses
+            </div>
+            <div class="col">
+                atr_%
+            </div>
+            <div class="col">
+                atr_scale
+            </div>
+            <div class="col">
+                5M
+            </div>
+            <div class="col">
+                2H
+            </div>
+            <div class="col">
+                pos_size
+            </div>
+        </div>
+        {% for asset in assets %}
+        <div class="row">
+            <div class="col">
+                {{asset.sector}}
+            </div>
+            <div class="col">
+                {{asset.name}}
+            </div>
+            <div class="col">
+                0.01545
+            </div>
+            <div class="col">
+                high|low|inside
+            </div>
+            <div class="col">
+                +35%
+            </div>
+            <div class="col">
+                ***||||||||
+            </div>
+            <div class="col">
+                -0.25%|in|+0.15%
+            </div>
+            <div class="col">
+                Levels? MP Formation ?
+            </div>
+            <div class="col">
+                3250
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <div>
+        <input class="btn btn-primary" type="submit" value="connect">
+    </div>
+</div>
+
+{% endblock %}
+{% block js %}
+<script>
+</script>
+{% endblock %}

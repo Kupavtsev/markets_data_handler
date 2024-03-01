@@ -3,6 +3,7 @@ from django.http import HttpResponse
 # from django.utils import timezone
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.shortcuts import render
 
 from get_data.serializers import ATRSerializer
 # from datetime import datetime
@@ -19,8 +20,10 @@ from .checker import response_to_db, atr_calc_for_last_session, trs_save_to_db
     
 def index(request):
     if request.method == 'GET':  
-        s = 'Quotes Data Handle'
-        return HttpResponse(s, content_type='text/plain; charset=utf-8')
+        assets : list = AssetSymbol.objects.all()
+        # for asset in assets:
+        #     print(asset.sector, asset.name)
+        return render(request, 'get_data/index.html', {'assets':assets})
     else:
         return HttpResponse('Wrong method: 405')
     
