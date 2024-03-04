@@ -24,9 +24,9 @@ def on_message(ws, message):
         highs.append(float(high))
         lows.append(float(low))
 
-    print(closes)
-    print(highs)
-    print(lows)
+    print('closes: ', closes)
+    print('highs: ', highs)
+    print('lows: ', lows)
 
     # print(close)
     # print(high)

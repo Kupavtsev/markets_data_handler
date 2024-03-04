@@ -97,7 +97,22 @@ def atr_calc(asset):
     for session in sessions[1:15]:
         atr += session.day_true_range 
     object = sessions[0]
-    object.day_average_true_range = format(atr/14, '.5f')
+    today_atr = format(atr/14, '.5f')
+    object.day_average_true_range = today_atr
+    # atr levels for today: open + today_atr 
+    count = float(today_atr)*0.25
+    start = count  # you need to change start on every cycle
+    atr_levels = []
+    for i in range(12):     # for plus atr move
+        res = object.price_day_open + start
+        atr_levels.append(res)
+        start += count
+    start = count
+    for i in range(12):     # for minus atr move
+        res = object.price_day_open - start
+        atr_levels.append(res)
+        start += count
+    object.atr_levels = atr_levels
     object.save()
     
 def atr_calc_for_last_session(switcher):
