@@ -32,12 +32,27 @@ def test(request):
     check_response.delay()
     return HttpResponse('api request done')
 
+# In Celery and do it every 2H
+def two_hours_to_db(request):
+    assets : list = AssetSymbol.objects.all()
+    request_days = 2
+    try:
+        response : dict = data_from_binance(assets, request_days, interval='1d')
+    except Exception:
+        print(Exception)
+        # send alert
+        # create delay
+        # print(ConnectionError)
+        response = {}
+    print(response)
+    print('response: ', type(response), len(response))
+
 # This function request the data, add this data to DB, calc TRs from this data and again add it to DB sessions
 def add_to_db(request):
     assets : list = AssetSymbol.objects.all()
     request_days = 15
     try:
-        response : dict = data_from_binance(assets, request_days)
+        response : dict = data_from_binance(assets, request_days, interval='1d')
     except Exception:
         print(Exception)
         # send alert

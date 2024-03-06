@@ -22,7 +22,7 @@ def security() -> isinstance:
     return client
 
 # Request Binance Data. Futures assets.
-def data_from_binance(assets, request_days) -> dict:
+def data_from_binance(assets, request_days, interval) -> dict:
     print('data_from_binance func')
     now = datetime.utcnow()
     # dd/mm/YY H:M:S
@@ -33,10 +33,51 @@ def data_from_binance(assets, request_days) -> dict:
     for asset in assets:
         history : isinstance = client.futures_historical_klines(
             symbol=asset,
-            interval='1d',  # can play with this e.g. '1h', '4h', '1w', etc.
+            interval=interval,  # can play with this e.g. '1h', '4h', '1w', etc.
             start_str=YDS,
             end_str=dt_string
         )
         fh_klines[asset.name] = history
     
     return fh_klines
+
+
+class Binance_data():
+    print('Class:', __name__.Binance_data)
+    client : isinstance = security()
+
+    def binance_daily(assets, request_days) -> dict:
+        print('method: ', __name__.data_from_binance)
+        now = datetime.utcnow()
+        dt_string : str = now.strftime("%Y-%m-%d")
+        YDS : str = (datetime.utcnow()-timedelta(days=request_days)).strftime("%Y-%m-%d")
+        client : isinstance = security()
+        fh_klines : dict = {}
+        for asset in assets:
+            history : isinstance = client.futures_historical_klines(
+                symbol=asset,
+                interval='1d',  # can play with this e.g. '1h', '4h', '1w', etc.
+                start_str=YDS,
+                end_str=dt_string
+            )
+            fh_klines[asset.name] = history
+        
+        return fh_klines
+    
+    def binance_2h(assets, request_days) -> dict:
+        print('method: ', __name__.data_from_binance)
+        now = datetime.utcnow()
+        dt_string : str = now.strftime("%Y-%m-%d")
+        YDS : str = (datetime.utcnow()-timedelta(days=request_days)).strftime("%Y-%m-%d")
+        client : isinstance = security()
+        fh_klines : dict = {}
+        for asset in assets:
+            history : isinstance = client.futures_historical_klines(
+                symbol=asset,
+                interval='2h',  # can play with this e.g. '1h', '4h', '1w', etc.
+                start_str=YDS,
+                end_str=dt_string
+            )
+            fh_klines[asset.name] = history
+        
+        return fh_klines

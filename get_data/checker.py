@@ -90,7 +90,7 @@ def trs_save_to_db(response):
                     object.day_true_range = format(each[2], '.5f')
                     object.save()
 
-# ATR calculator for today
+# ATR and levels calculator for today
 def atr_calc(asset):
     sessions = DailyPrices.objects.filter(symbol=asset)
     atr = 0
@@ -98,7 +98,7 @@ def atr_calc(asset):
         atr += session.day_true_range 
     object = sessions[0]
     today_atr = format(atr/14, '.5f')
-    object.day_average_true_range = today_atr
+    object.day_average_true_range = today_atr   #ATR for today
     # atr levels for today: open + today_atr 
     count = float(today_atr)*0.25
     start = count  # you need to change start on every cycle
