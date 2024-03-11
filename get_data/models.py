@@ -100,7 +100,6 @@ class Two_Hours(models.Model):
     price_low = models.FloatField(null=True, blank=True)
     price_close = models.FloatField(null=True, blank=True)
     volume = models.FloatField(null=True, blank=True)
-    end_of_candle = models.DateTimeField(null=True, blank=True)
     
 
     class Meta:

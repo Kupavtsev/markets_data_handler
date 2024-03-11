@@ -4,7 +4,7 @@ from datetime import datetime
 from django.utils import timezone
 import websocket, json
 
-from .models import ATR, AssetSymbol, DailyPrices
+from .models import ATR, AssetSymbol, DailyPrices, Two_Hours
 
 today = datetime.utcnow()
 today_string = today.strftime("%Y-%m-%d")
@@ -29,7 +29,28 @@ today_string = today.strftime("%Y-%m-%d")
 
 # **************************************************
 
+def response_2h_to_db(response):
+    for symbol, lists_of_days in response.items():
+        for each_date in lists_of_days:
 
+            asset : str = AssetSymbol.objects.get(name=symbol)
+            session_date = datetime.fromtimestamp(each_date[0]/1000, timezone.utc).strftime("%Y-%m-%d")   #date
+            start_of_candle = datetime.fromtimestamp(each_date[0]/1000, timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+
+            new_session : isinstance = Two_Hours(
+                session_date=session_date,
+                start_of_candle=start_of_candle,
+                price_open=each_date[1],
+                price_high=each_date[2],
+                price_low=each_date[3],
+                price_close=each_date[4],
+                volume=each_date[5],
+            )
+            new_session.symbol = asset
+            print('new_session: ', new_session.session_date, new_session.symbol, new_session.start_of_candle, new_session.price_close)
+            # This is work with first requested Symbol, so it won't work with todays added New symbols.
+            if not Two_Hours.objects.filter(symbol=asset, start_of_candle=start_of_candle):
+                new_session.save()
 
 def response_to_db(response):
     for symbol, lists_of_days in response.items():

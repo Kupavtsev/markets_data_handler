@@ -18,7 +18,7 @@ from .tasks import check_response
 from .binance_api import data_from_binance
 from .models import AssetSymbol, ATR
 
-from .checker import response_to_db, atr_calc_for_last_session, trs_save_to_db
+from .checker import response_to_db, atr_calc_for_last_session, trs_save_to_db, response_2h_to_db
 
     
 def index(request):
@@ -45,6 +45,9 @@ def two_hours_to_db(request):
         print(Exception)
         response = {}
     print('response: ', type(response), len(response))
+    # print('response: ', response)
+    if len(response)>0:
+        response_2h_to_db(response)
     return HttpResponse('2H request done')
 
 # This function request the data, add this data to DB, calc TRs from this data and again add it to DB sessions
@@ -71,10 +74,10 @@ def add_to_db(request):
     # response time 3.38 for 10 days and 3 elements
     
     # Realise it with Class and Methods, response would be atr of Class inst
-    if len(response) > 1:
+    if len(response) > 1:       # > 0 ?
         response_to_db(response)
         trs_save_to_db(response)
-        # need check if empty bd
+        # atr, atrs levels, 2ses levels for today
         atr_calc_for_last_session('atr_today')
         
     # elif response != None:
