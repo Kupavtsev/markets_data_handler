@@ -44,7 +44,6 @@ def two_hours_to_db(request):
     except Exception:
         print(Exception)
         response = {}
-    print(response)
     print('response: ', type(response), len(response))
     return HttpResponse('2H request done')
 

@@ -90,7 +90,7 @@ def trs_save_to_db(response):
                     object.day_true_range = format(each[2], '.5f')
                     object.save()
 
-# ATR and levels calculator for today
+# ATR and levels calculator. 2ses levels for today
 def atr_calc(asset):
     sessions = DailyPrices.objects.filter(symbol=asset)
     atr = 0
@@ -99,6 +99,13 @@ def atr_calc(asset):
     object = sessions[0]
     today_atr = format(atr/14, '.5f')
     object.day_average_true_range = today_atr   #ATR for today
+    
+    # 2 sessions
+    high = max(sessions[1].price_day_high, sessions[2].price_day_high)
+    low = min(sessions[1].price_day_low, sessions[1].price_day_low)
+    # print(high, low)
+    object.prev_two_ses_high_low = [high, low]
+    
     # atr levels for today: open + today_atr 
     count = float(today_atr)*0.25
     start = count  # you need to change start on every cycle
@@ -144,7 +151,7 @@ def atr_total_calc_once(asset):
                 atr += session.day_true_range
             object = sessions[0]
             object.day_average_true_range = format(atr/14, '.5f')
-            print('ATR object =>', object.symbol, object.session_date, object.day_average_true_range)
+            # print('ATR object =>', object.symbol, object.session_date, object.day_average_true_range)
 
             object2 = ATR(
                 symbol = session.symbol,
@@ -153,12 +160,12 @@ def atr_total_calc_once(asset):
             )
             object2.session_date = sessions[0].session_date
             # object2.day_average_true_range = format(atr/14, '.5f')
-            print('object2: ', object2.day_average_true_range)
+            # print('object2: ', object2.day_average_true_range)
             # object.save()
             # if not object2.session_date:
             #     object2.save()
             count -= 1
-            print(count)
+            # print(count)
             # atr_total_calc_once(asset)
     except Exception as e: print(e)
     finally: print('finished')

@@ -61,6 +61,8 @@ class DailyPrices(models.Model):
     day_average_true_range = models.FloatField(null=True, blank=True)
     # 0:0.25 1:0.5 2:0.75 3:1 4:1.25 5:1.5 6:1.75 7:2 8:2.25 9:2.5 10:2.75 11:3 12:-0.25 13:-0.5 14/15/16/17/18/19/20/21/22/23
     atr_levels = ArrayField(base_field=models.FloatField(null=True, blank=True), default=list, null=True, blank=True, verbose_name='ATRs Levels')
+    prev_two_ses_high_low = ArrayField(base_field=models.FloatField(null=True, blank=True), default=list, null=True, blank=True, verbose_name='H/L P2Ses')
+    # prev_two_ses_low = None
     
 
     class Meta:
