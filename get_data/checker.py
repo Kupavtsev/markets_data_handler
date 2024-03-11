@@ -125,6 +125,7 @@ def atr_calc_for_last_session(switcher):
         for asset in assets:
             atr_total_calc_once2(asset.id)
 
+# Not Using!
 def atr_total_calc_once(asset):
     # sessions = DailyPrices.objects.filter(symbol=asset)
     sessions = DailyPrices.objects.filter(symbol=asset, day_average_true_range=None)
@@ -180,6 +181,9 @@ def atr_total_calc_once2(asset):
         ses_dict['Volume'] = ses.day_volume
         ses_dict['tr'] = 0
         ses_dict['atr'] = 0
+        ses_dict['ma5'] = 0
+        ses_dict['ma10'] = 0
+        ses_dict['ma20'] = 0
         ses_list.append(ses_dict)
     df = pd.DataFrame(ses_list)
     # print(df)
@@ -193,8 +197,17 @@ def atr_total_calc_once2(asset):
     tr = ranges.max(axis=1)
     df['tr'] = tr
     atr_all = tr.shift(1).rolling(period).sum()/period
+    # print('atr_all: ', atr_all)
     df['atr'] = round(atr_all, 6)
     # print(df)
+    mid_close = df['Close']
+    ma5 = mid_close.rolling(5).sum()/5
+    ma10 = mid_close.rolling(10).sum()/10
+    ma20 = mid_close.rolling(20).sum()/20
+    df['ma5'] = ma5
+    df['ma10'] = ma10
+    df['ma20'] = ma20
+    # print('ma5: ', ma5)
     
     # NaN not accepted by JSON Serializers
     df = df.fillna(0)
@@ -212,5 +225,5 @@ def atr_total_calc_once2(asset):
         update_conflicts=True,
         # unique_fields=['symbol', 'session', 'Open', 'High', 'Low', 'Close', 'tr'],
         unique_fields=['symbol', 'session'],
-        update_fields=['atr'],
+        update_fields=['atr', 'ma5', 'ma10', 'ma20'],
         )

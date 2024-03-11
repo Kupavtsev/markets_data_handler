@@ -92,3 +92,4 @@ data_dict.json
 test.ods
 .~lock.test.ods#
 test.xlsx
+~$test.xlsx

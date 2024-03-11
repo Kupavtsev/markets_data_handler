@@ -80,6 +80,9 @@ class ATR(models.Model):
     Volume = models.FloatField(null=True, blank=True)
     tr = models.FloatField(null=True, blank=True)
     atr = models.FloatField(null=True, blank=True)
+    ma5 = models.FloatField(null=True, blank=True)
+    ma10 = models.FloatField(null=True, blank=True)
+    ma20 = models.FloatField(null=True, blank=True)
 
     class Meta:
         db_table = "atr"
