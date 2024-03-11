@@ -2,6 +2,8 @@ import os
 from binance import Client
 # from binance import Client, ThreadedWebsocketManager, ThreadedDepthCacheManager
 from datetime import datetime, timedelta
+import asyncio
+
 
 
 '''
@@ -38,11 +40,14 @@ def data_from_binance(assets, request_days, interval) -> dict:
             end_str=dt_string
         )
         fh_klines[asset.name] = history
+
     
+
+
     return fh_klines
 
 
-class Binance_data():
+# class Binance_data():
     print('Class:', __name__.Binance_data)
     client : isinstance = security()
 

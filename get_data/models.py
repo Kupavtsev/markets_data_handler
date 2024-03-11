@@ -89,17 +89,18 @@ class ATR(models.Model):
 class Two_Hours(models.Model):
     symbol = models.ForeignKey('AssetSymbol', on_delete=models.PROTECT, default=None)
     session_date = models.DateField()
-    time_of_candle = models.DateTimeField(null=True, blank=True)
+    start_of_candle = models.DateTimeField(null=True, blank=True)
     price_open = models.FloatField(null=True, blank=True)
     price_high = models.FloatField(null=True, blank=True)
     price_low = models.FloatField(null=True, blank=True)
     price_close = models.FloatField(null=True, blank=True)
     volume = models.FloatField(null=True, blank=True)
-    request_time = models.DateTimeField(null=True, blank=True)
+    end_of_candle = models.DateTimeField(null=True, blank=True)
+    
 
     class Meta:
         db_table = "two_hours_prices"
         verbose_name = 'Two Hours'
         verbose_name_plural = 'Two Hours'
         ordering = ['-session_date']
-        unique_together = ('symbol', 'time_of_candle')
+        unique_together = ('symbol', 'start_of_candle')
