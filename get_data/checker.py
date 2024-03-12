@@ -47,7 +47,7 @@ def response_2h_to_db(response):
                 volume=each_date[5],
             )
             new_session.symbol = asset
-            print('new_session: ', new_session.session_date, new_session.symbol, new_session.start_of_candle, new_session.price_close)
+            # print('new_session: ', new_session.session_date, new_session.symbol, new_session.start_of_candle, new_session.price_close)
             # This is work with first requested Symbol, so it won't work with todays added New symbols.
             if not Two_Hours.objects.filter(symbol=asset, start_of_candle=start_of_candle):
                 new_session.save()

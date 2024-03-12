@@ -3,6 +3,7 @@ from binance import Client
 # from binance import Client, ThreadedWebsocketManager, ThreadedDepthCacheManager
 from datetime import datetime, timedelta
 import asyncio
+from concurrent.futures import ThreadPoolExecutor
 
 
 
@@ -32,7 +33,16 @@ def data_from_binance(assets, request_days, interval) -> dict:
     YDS : str = (datetime.utcnow()-timedelta(days=request_days)).strftime("%Y-%m-%d")
     client : isinstance = security()
     fh_klines : dict = {}
-    for asset in assets:
+    # for asset in assets:
+    #     history : isinstance = client.futures_historical_klines(
+    #         symbol=asset,
+    #         interval=interval,  # can play with this e.g. '1h', '4h', '1w', etc.
+    #         start_str=YDS,
+    #         end_str=dt_string
+    #     )
+    #     fh_klines[asset.name] = history
+
+    def thread_test(asset):
         history : isinstance = client.futures_historical_klines(
             symbol=asset,
             interval=interval,  # can play with this e.g. '1h', '4h', '1w', etc.
@@ -41,8 +51,8 @@ def data_from_binance(assets, request_days, interval) -> dict:
         )
         fh_klines[asset.name] = history
 
-    
-
+    with ThreadPoolExecutor() as executor:
+        executor.map(thread_test, assets)
 
     return fh_klines
 
