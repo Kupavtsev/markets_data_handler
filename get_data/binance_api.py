@@ -33,14 +33,6 @@ def data_from_binance(assets, request_days, interval) -> dict:
     YDS : str = (datetime.utcnow()-timedelta(days=request_days)).strftime("%Y-%m-%d")
     client : isinstance = security()
     fh_klines : dict = {}
-    # for asset in assets:
-    #     history : isinstance = client.futures_historical_klines(
-    #         symbol=asset,
-    #         interval=interval,  # can play with this e.g. '1h', '4h', '1w', etc.
-    #         start_str=YDS,
-    #         end_str=dt_string
-    #     )
-    #     fh_klines[asset.name] = history
 
     def thread_test(asset):
         history : isinstance = client.futures_historical_klines(
@@ -53,6 +45,26 @@ def data_from_binance(assets, request_days, interval) -> dict:
 
     with ThreadPoolExecutor() as executor:
         executor.map(thread_test, assets)
+
+    return fh_klines
+
+
+# def data_from_binance(assets, request_days, interval) -> dict:
+    print('data_from_binance func')
+    now = datetime.utcnow()
+    # dd/mm/YY H:M:S
+    dt_string : str = now.strftime("%Y-%m-%d")
+    YDS : str = (datetime.utcnow()-timedelta(days=request_days)).strftime("%Y-%m-%d")
+    client : isinstance = security()
+    fh_klines : dict = {}
+    for asset in assets:
+        history : isinstance = client.futures_historical_klines(
+            symbol=asset,
+            interval=interval,  # can play with this e.g. '1h', '4h', '1w', etc.
+            start_str=YDS,
+            end_str=dt_string
+        )
+        fh_klines[asset.name] = history
 
     return fh_klines
 
