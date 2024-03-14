@@ -106,6 +106,7 @@ def add_to_db(request):
 
 
 def atr(request):
+    print('Start to calc all ATRs from DB')
     atr_calc_for_last_session('atr_total')
     return HttpResponse('atrs...')
 

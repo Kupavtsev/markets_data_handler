@@ -2,13 +2,20 @@ import numpy as np
 import pandas as pd
 from datetime import datetime
 from django.utils import timezone
-import websocket, json
+# import websocket, json
+from dateutil.tz import tzutc
 
 from .models import ATR, AssetSymbol, DailyPrices, Two_Hours
 
-today = datetime.utcnow()
-today_string = today.strftime("%Y-%m-%d")
-
+# today = datetime.utcnow()
+# today = datetime.now(datetime.UTC)
+# today_string = today.strftime("%Y-%m-%d")
+def utcnow():
+    now = datetime.utcnow()
+    now = now.replace(tzinfo=tzutc())
+    now = now.strftime("%Y-%m-%d")
+    return now
+today_string = utcnow()
 # **************************************************
 # Websocket part
 # cc = 'btcusdt'

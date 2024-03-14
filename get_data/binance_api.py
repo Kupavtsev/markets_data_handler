@@ -5,6 +5,8 @@ from datetime import datetime, timedelta
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
+from .checker import utcnow
+
 
 
 '''
@@ -27,9 +29,10 @@ def security() -> isinstance:
 # Request Binance Data. Futures assets.
 def data_from_binance(assets, request_days, interval) -> dict:
     print('data_from_binance func')
-    now = datetime.utcnow()
+    # now = datetime.utcnow()
+    now = utcnow()
     # dd/mm/YY H:M:S
-    dt_string : str = now.strftime("%Y-%m-%d")
+    # dt_string : str = now.strftime("%Y-%m-%d")
     YDS : str = (datetime.utcnow()-timedelta(days=request_days)).strftime("%Y-%m-%d")
     client : isinstance = security()
     fh_klines : dict = {}
@@ -39,7 +42,7 @@ def data_from_binance(assets, request_days, interval) -> dict:
             symbol=asset,
             interval=interval,  # can play with this e.g. '1h', '4h', '1w', etc.
             start_str=YDS,
-            end_str=dt_string
+            end_str=now
         )
         fh_klines[asset.name] = history
 
