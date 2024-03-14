@@ -70,8 +70,22 @@ def response_to_db(response):
             )
             new_session.symbol = asset
             # This is work with first requested Symbol, so it won't work with todays added New symbols.
+            # Need to update because of incorrect data
             if not DailyPrices.objects.filter(symbol=asset, session_date=session_date):
+                # print('In create new sign mode: DailyPrices')
                 new_session.save()
+            else: 
+                # print('In update mode: DailyPrices')
+                DailyPrices.objects.filter(symbol=asset, session_date=session_date).update(
+                    request_time=timezone.now(),
+                    # price_day_open=each_date[1],
+                    price_day_high=each_date[2],
+                    price_day_low=each_date[3],
+                    price_day_close=each_date[4],
+                    day_volume=each_date[5],
+                    )
+           
+
 
 # TR by asset for last session of response list
 def tr(df):
@@ -92,7 +106,7 @@ def tr(df):
 def cycle_of_response(respone):
     df = pd.DataFrame(respone)
     result = []
-    for session in range(len(df)-1):
+    for session in range(len(df)-1):        # _ instead of session ?
         res = tr(df)
         # print(res)
         result.append(res)
@@ -100,6 +114,8 @@ def cycle_of_response(respone):
 
     return result
 
+# It is calc only for sessions without TRs.
+# So again more actual is ATR model from Pandas
 def trs_save_to_db(response):
     x = cycle_of_response(response)
     tr_objects = DailyPrices.objects.filter(day_true_range=None)    # get sessions without TRs
@@ -114,18 +130,22 @@ def trs_save_to_db(response):
 # ATR and levels calculator. 2ses levels for today
 def atr_calc(asset):
     sessions = DailyPrices.objects.filter(symbol=asset)
+    #ATR for today
     atr = 0
     for session in sessions[1:15]:
         atr += session.day_true_range 
     object = sessions[0]
     today_atr = format(atr/14, '.5f')
-    object.day_average_true_range = today_atr   #ATR for today
+    object.day_average_true_range = today_atr   
     
     # 2 sessions
     high = max(sessions[1].price_day_high, sessions[2].price_day_high)
     low = min(sessions[1].price_day_low, sessions[1].price_day_low)
     # print(high, low)
     object.prev_two_ses_high_low = [high, low]
+    print('====================')
+    print(object.session_date, object.symbol, object.prev_two_ses_high_low)
+    print('====================')
     
     # atr levels for today: open + today_atr 
     count = float(today_atr)*0.25
@@ -141,8 +161,21 @@ def atr_calc(asset):
         atr_levels.append(res)
         start += count
     object.atr_levels = atr_levels
-    object.save()
-    
+    # object.save()
+    if not DailyPrices.objects.filter(symbol=asset, session_date=object.session_date):
+        print('In create new sign mode (ATRs, Levels, 2 Ses): DailyPrices')
+        print(asset, object.symbol, object.session_date, today_atr, [high, low])
+        object.save()
+    else:
+        # All this Func work with only Today! So do you need an updating ?
+        print('In Update mode (ATRs, Levels, 2 Ses): DailyPrices')
+        print(asset, object.symbol, object.session_date, today_atr, [high, low])
+        DailyPrices.objects.filter(symbol=asset, session_date=object.session_date).update(
+            day_average_true_range=today_atr,
+            prev_two_ses_high_low=[high, low],
+            atr_levels=atr_levels
+            )
+
 def atr_calc_for_last_session(switcher):
     assets : list = AssetSymbol.objects.all()
     # assets = ['ACHUSDT', 'FETUSDT']
@@ -237,8 +270,8 @@ def atr_total_calc_once2(asset):
     df['ma20'] = ma20
     # print('ma5: ', ma5)
     
-    # NaN not accepted by JSON Serializers
-    df = df.fillna(0)
+    
+    df = df.fillna(0)   # NaN not accepted by JSON Serializers
     
     model_instances = []
     for row in df.iterrows():
