@@ -12,7 +12,7 @@ class ATRsAdmin(admin.ModelAdmin):
     list_display_links = ('symbol',)
 
 class Two_HoursAdmin(admin.ModelAdmin):
-    list_display = ('symbol', 'session_date','start_of_candle')
+    list_display = ('symbol', 'session_date', 'price_high', 'price_low', 'start_of_candle')
     list_display_links = ('symbol', 'session_date')
 
 

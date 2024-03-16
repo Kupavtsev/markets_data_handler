@@ -12,17 +12,23 @@ from datetime import date, timedelta
 startdate = date.today()
 enddate = startdate - timedelta(days=6)
 
+# or I shoul pass this data to Class ? Or create sub functions
+def mp_calc(hl):
+    h = hl[0]
+    l = hl[1]
+    print(h, l, hl[2], hl[3])
 
-def mp_2h(symbol, session_data, **data):
-    data_2h_from_db = Two_Hours.objects.filter(symbol=symbol, session_date=session_data)
-    # for each2h in data_2h_from_db:
+# Not useful possably !!!
+def hl_2h_list(symbol, session_data, **data):
+    db_2h_ohlc = Two_Hours.objects.filter(symbol=symbol, session_date=session_data)
+    for hl in db_2h_ohlc:
+        mp_calc([hl.price_high, hl.price_low])
     #     print(each2h.symbol, each2h.session_date, each2h.start_of_candle, each2h.price_close)
-    periods_mp = data['periods_mp']
-    print(periods_mp)
+    # periods_mp = data['periods_mp']
+    # print(periods_mp)
 
 def prepair_mp2h(ses):
     # runs through each symbol session
-    # Inside this loop should be all logic and saving data to db
     periods = 40
     symbol = ses.symbol
     session_data = ses.session_date
@@ -30,30 +36,28 @@ def prepair_mp2h(ses):
     low = ses.price_day_low
     close = ses.price_day_close
     atr = ATR.objects.get(symbol=ses.symbol, session=ses.session_date).atr
-    # Logic
+    # Logic. This DATA for ONE session!
     step_price_prc = atr/close*100
     step_prc = step_price_prc/periods
     step_ticks = close*step_prc/100
     price_range = high - low
     len_periods = price_range / step_ticks
-    # print(symbol, session_data, step_price_prc, step_prc, step_ticks, len_periods)
 
-
-    periods_tick_steps = np.arange(low, high+step_ticks, step_ticks)
-    periods_mp = [0]*len(periods_tick_steps)
-    # print(symbol, session_data, len(periods_tick_steps), len(periods_mp), high, periods_tick_steps[-1])
-    # next
-    data = {'periods_tick_steps': periods_tick_steps, 'periods_mp': periods_mp}
-    mp_2h(symbol, session_data, **data)
-    # get very sign from this new model and add data from ATR.
-    # than from 2H
-    # and each time its new loops, or funcs, or funcs inside funcs!
+    periods_in_ticks = np.arange(low, high+step_ticks, step_ticks)
+    periods_mp = [0]*len(periods_in_ticks)
+   
+    data = {'periods_in_ticks': periods_in_ticks, 'periods_mp': periods_mp}
+    # hl_2h_list(symbol, session_data, **data)
+    db_2h_ohlc = Two_Hours.objects.filter(symbol=symbol, session_date=session_data)
+    for hl in db_2h_ohlc:
+        mp_calc([hl.price_high, hl.price_low, hl.start_of_candle, hl.session_date])
     
 
 # Basic. work well 3
 def main():
     start = time.time()
     assets : list = AssetSymbol.objects.all()
+    # It runs every session by asset
     def func_sessions(asset):
         sessions = DailyPrices.objects.filter(symbol=asset, session_date__range=[enddate, startdate])          # get last 7 sessions
         for ses in sessions:
