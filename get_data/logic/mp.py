@@ -12,13 +12,15 @@ from datetime import date, timedelta
 startdate = date.today()
 enddate = startdate - timedelta(days=6)
 
+# NOT USED!
 # or I shoul pass this data to Class ? Or create sub functions
 def mp_calc(hl):
     h = hl[0]
     l = hl[1]
     print(h, l, hl[2], hl[3])
+    print('=========================')
 
-# Not useful possably !!!
+# NOT USED!
 def hl_2h_list(symbol, session_data, **data):
     db_2h_ohlc = Two_Hours.objects.filter(symbol=symbol, session_date=session_data)
     for hl in db_2h_ohlc:
@@ -26,6 +28,25 @@ def hl_2h_list(symbol, session_data, **data):
     #     print(each2h.symbol, each2h.session_date, each2h.start_of_candle, each2h.price_close)
     # periods_mp = data['periods_mp']
     # print(periods_mp)
+
+def master(periods_in_ticks, symbol, session_data):
+    periods_in_ticks = periods_in_ticks
+    periods_mp   = [0]*len(periods_in_ticks)
+    def mp_calc(hl):
+        h = hl[0]
+        l = hl[1]
+        tick = 1.1
+        for k in range(len(periods_mp)):
+            if periods_in_ticks[k] >= l and periods_in_ticks[k] <= h:
+                periods_mp[k] = periods_mp[k]+1
+    def data_2h():
+        db_2h_ohlc = Two_Hours.objects.filter(symbol=symbol, session_date=session_data)
+        for hl in db_2h_ohlc:
+            mp_calc([hl.price_high, hl.price_low])
+    data_2h()
+    print(symbol, session_data)
+    print(periods_in_ticks)
+    print(periods_mp)
 
 def prepair_mp2h(ses):
     # runs through each symbol session
@@ -46,12 +67,9 @@ def prepair_mp2h(ses):
     periods_in_ticks = np.arange(low, high+step_ticks, step_ticks)
     periods_mp = [0]*len(periods_in_ticks)
    
-    data = {'periods_in_ticks': periods_in_ticks, 'periods_mp': periods_mp}
+    # data = {'periods_in_ticks': periods_in_ticks, 'periods_mp': periods_mp}
     # hl_2h_list(symbol, session_data, **data)
-    db_2h_ohlc = Two_Hours.objects.filter(symbol=symbol, session_date=session_data)
-    for hl in db_2h_ohlc:
-        mp_calc([hl.price_high, hl.price_low, hl.start_of_candle, hl.session_date])
-    
+    master(periods_in_ticks, symbol, session_data)
 
 # Basic. work well 3
 def main():
