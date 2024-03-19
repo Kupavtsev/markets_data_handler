@@ -64,20 +64,20 @@ def master(periods_in_ticks, symbol, session_data):
     main_metrics = mp_2h_levels(periods_mp)
     # Save all results to DB
     mp_2h_data : isinstance = MP_Two_Hours(
-                symbol=None,
+                symbol=symbol,
                 session=session_data,
                 top_tail=main_metrics[0],
                 body=main_metrics[1],
-                body_size_ticks=main_metrics[2],
+                body_size_ticks=format(main_metrics[2], '.7f'),
                 body_size_percent=main_metrics[3],
                 bottom_tail=main_metrics[4],
                 periods_mp=periods_mp,
             )
     if not MP_Two_Hours.objects.filter(symbol=symbol, session=session_data):
                 mp_2h_data.save()
-    # print(symbol, session_data)
-    # print(periods_mp)
-    print('bottom_tail, top_tail: ', main_metrics)
+    # # print(symbol, session_data)
+    # # print(periods_mp)
+    # print('bottom_tail, top_tail: ', main_metrics)
     
     # print('body, ticks/%: ',body_size_ticks, body_size_percent)
     # print('\n')

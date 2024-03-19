@@ -44,7 +44,7 @@ def calc_2h_mp(request):
 # In Celery and do it every 2H
 def two_hours_to_db(request):
     assets : list = AssetSymbol.objects.all()
-    request_days = 3
+    request_days = 4
     start = time.time()
     try:
         response : dict = data_from_binance(assets, request_days, interval='2h')

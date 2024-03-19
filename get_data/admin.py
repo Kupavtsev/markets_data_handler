@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PlatformExchange, Sector, AssetSymbol, DailyPrices, ATR, Two_Hours
+from .models import PlatformExchange, Sector, AssetSymbol, DailyPrices, ATR, Two_Hours, MP_Two_Hours
 
 
 class DailyPricesAdmin(admin.ModelAdmin):
@@ -15,7 +15,11 @@ class Two_HoursAdmin(admin.ModelAdmin):
     list_display = ('symbol', 'session_date', 'price_high', 'price_low', 'start_of_candle')
     list_display_links = ('symbol', 'session_date')
 
+class MP_Two_HoursAdmin(admin.ModelAdmin):
+    list_display = ('session', 'symbol', 'body_size_percent')
+    list_display_links = ('session', 'symbol')
 
+admin.site.register(MP_Two_Hours, MP_Two_HoursAdmin)
 admin.site.register(DailyPrices, DailyPricesAdmin)
 admin.site.register(ATR, ATRsAdmin)
 admin.site.register(Two_Hours, Two_HoursAdmin)
