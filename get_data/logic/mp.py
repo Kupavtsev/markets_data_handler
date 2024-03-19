@@ -5,51 +5,82 @@ import numpy as np
 
 import django
 django.setup()
-from get_data.models import AssetSymbol, DailyPrices, ATR, Two_Hours 
+from get_data.models import AssetSymbol, DailyPrices, ATR, Two_Hours, MP_Two_Hours
 # from get_data.checker import utcnow
 from datetime import date, timedelta
 
 startdate = date.today()
 enddate = startdate - timedelta(days=6)
-
+startdate = startdate - timedelta(days=1)
 
 def master(periods_in_ticks, symbol, session_data):
+    symbol = symbol
+    session_data = session_data
     periods_in_ticks = periods_in_ticks
     periods_mp   = [0]*len(periods_in_ticks)
     def mp_calc(hl):
         h = hl[0]
         l = hl[1]
-        tick = 1.1
+        # tick = 1.1    # why I dont used it?
         for k in range(len(periods_mp)):
             if periods_in_ticks[k] >= l and periods_in_ticks[k] <= h:
                 periods_mp[k] = periods_mp[k]+1
     def data_2h():
         db_2h_ohlc = Two_Hours.objects.filter(symbol=symbol, session_date=session_data)
-        if len(db_2h_ohlc) < 12:
-            print('len(db_2h_ohlc): ', len(db_2h_ohlc))
         for hl in db_2h_ohlc:
             mp_calc([hl.price_high, hl.price_low])
     data_2h()       # put all new data to periods_mp
     def mp_2h_levels(x):
         data = x
+        body = [0, 0]
         bottom_tail = [0,0]     # [low point, higher point]
         if data[0] < 3:
             bottom_tail[0] = periods_in_ticks[0]   # bottom of b.tail
             for index, el in enumerate(data):
-                # print('index: ', index,'el: ', el)
                 bottom_tail[1] = periods_in_ticks[index-1]    # top of b.tail
+                body[0] = periods_in_ticks[index]
                 if el > 2:
                     break
         top_tail = [0,0]
         if data[-1] < 3:
             top_tail[1] = periods_in_ticks[-1]    # top of t.tail
-        return (bottom_tail, top_tail)
-    y = mp_2h_levels(periods_mp)
-    print(symbol, session_data)
-    print(periods_in_ticks)
-    print(periods_mp)
-    print('bottom_tail, top_tail: ', y)
-    print('\n')
+            data.reverse()
+            for index, el in enumerate(data):
+                top_tail[0] = periods_in_ticks[-index]    # bottom of t.tail
+                body[1] = periods_in_ticks[-index-1]
+                if el > 2:
+                    break
+        
+        base = None
+        body_size_ticks = body[1] - body[0]
+        # body_size_ticks = format(body_size_ticks, '.7f')
+        body_size_percent = format(body_size_ticks/body[0]*100, '.1f')
+        return (
+            top_tail,
+            body,
+            body_size_ticks,
+            body_size_percent,
+            bottom_tail)
+    main_metrics = mp_2h_levels(periods_mp)
+    # Save all results to DB
+    mp_2h_data : isinstance = MP_Two_Hours(
+                symbol=None,
+                session=session_data,
+                top_tail=main_metrics[0],
+                body=main_metrics[1],
+                body_size_ticks=main_metrics[2],
+                body_size_percent=main_metrics[3],
+                bottom_tail=main_metrics[4],
+                periods_mp=periods_mp,
+            )
+    if not MP_Two_Hours.objects.filter(symbol=symbol, session=session_data):
+                mp_2h_data.save()
+    # print(symbol, session_data)
+    # print(periods_mp)
+    print('bottom_tail, top_tail: ', main_metrics)
+    
+    # print('body, ticks/%: ',body_size_ticks, body_size_percent)
+    # print('\n')
 
 def prepair_mp2h(ses):
     # runs through each symbol session
