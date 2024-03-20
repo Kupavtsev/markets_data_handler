@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-03-20T16:02:42.010Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.5 Chrome/114.0.5735.243 Electron/25.3.1 Safari/537.36" etag="ZtHoac5IAHq0w-OsgSu2" version="21.6.5" type="device" pages="9">
+<mxfile host="Electron" modified="2024-03-20T17:55:26.665Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.5 Chrome/114.0.5735.243 Electron/25.3.1 Safari/537.36" etag="dXLbr7a6jFabKP8-YjDe" version="21.6.5" type="device" pages="9">
   <diagram id="d9sCb0YppfIdgZC53llZ" name="main">
     <mxGraphModel dx="1418" dy="828" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="none" math="0" shadow="0">
       <root>
@@ -342,8 +342,14 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="6txV99dCQbS7PHTob7Q_-1" value="&lt;h1&gt;Position Size&lt;/h1&gt;&lt;p style=&quot;line-height: 40%;&quot;&gt;1. Total Risk on Deal&lt;/p&gt;&lt;p style=&quot;line-height: 90%;&quot;&gt;2. What part in percent of the move you can expect&lt;/p&gt;&lt;p style=&quot;line-height: 90%;&quot;&gt;3. Compare asset move by ATR (%). Current VIX in asset , Sector and BTC!&lt;/p&gt;&lt;p style=&quot;line-height: 90%;&quot;&gt;4.Stop in %&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=20;fontFamily=Architects Daughter;" parent="1" vertex="1">
-          <mxGeometry x="40" y="30" width="210" height="400" as="geometry" />
+        <mxCell id="6txV99dCQbS7PHTob7Q_-1" value="&lt;h1&gt;Position Size&lt;/h1&gt;&lt;p style=&quot;line-height: 40%;&quot;&gt;1. Total Risk on Deal&lt;/p&gt;&lt;p style=&quot;line-height: 90%;&quot;&gt;2. What part in percent of the move you can expect&lt;/p&gt;&lt;p style=&quot;line-height: 90%;&quot;&gt;3. Compare asset move by ATR (%). Current VIX in asset , Sector and BTC!&lt;/p&gt;&lt;p style=&quot;line-height: 90%;&quot;&gt;4.Stop in %&lt;/p&gt;&lt;p style=&quot;line-height: 90%;&quot;&gt;5. In fact, parts of MP is a Risk!&lt;/p&gt;&lt;p style=&quot;line-height: 90%;&quot;&gt;6. Or you can create Position only when body, atr and tail meet the Risk. Or more probably that Size of posiotion depends on it.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=20;fontFamily=Architects Daughter;" parent="1" vertex="1">
+          <mxGeometry x="40" y="30" width="210" height="660" as="geometry" />
+        </mxCell>
+        <mxCell id="FODN01q_EeDf62uDmPpt-1" value="100" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="990" y="50" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="FODN01q_EeDf62uDmPpt-2" value="You can play with amount of position becouse of margin.&lt;br&gt;And stay in total system balance." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontFamily=Architects Daughter;" vertex="1" parent="1">
+          <mxGeometry x="930" y="160" width="220" height="140" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

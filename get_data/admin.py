@@ -16,7 +16,7 @@ class Two_HoursAdmin(admin.ModelAdmin):
     list_display_links = ('symbol', 'session_date')
 
 class MP_Two_HoursAdmin(admin.ModelAdmin):
-    list_display = ('session', 'symbol', 'body_size_percent')
+    list_display = ('session', 'symbol', 'body_size_percent', 'top_tail_percent', 'bottom_tail_percent')
     list_display_links = ('session', 'symbol')
 
 admin.site.register(MP_Two_Hours, MP_Two_HoursAdmin)
