@@ -31,36 +31,42 @@ def master(periods_in_ticks, symbol, session_data):
             mp_calc([hl.price_high, hl.price_low])
     data_2h()       # put all new data to periods_mp
     def mp_2h_levels(x):
+        arred = lambda x,n : x*(10**n)//1/(10**n)
         data = x
         body = [0, 0]
         bottom_tail = [0,0]     # [low point, higher point]
         if data[0] < 3:
             bottom_tail[0] = periods_in_ticks[0]   # bottom of b.tail
             for index, el in enumerate(data):
-                bottom_tail[1] = periods_in_ticks[index-1]    # top of b.tail
-                body[0] = periods_in_ticks[index]
+                bottom_tail[1] = arred(periods_in_ticks[index-1], 7)    # top of b.tail
+                body[0] = arred(periods_in_ticks[index], 7)
                 if el > 2:
                     break
         top_tail = [0,0]
         if data[-1] < 3:
-            top_tail[1] = periods_in_ticks[-1]    # top of t.tail
+            top_tail[1] = arred(periods_in_ticks[-1], 7)    # top of t.tail
             data.reverse()
             for index, el in enumerate(data):
-                top_tail[0] = periods_in_ticks[-index]    # bottom of t.tail
-                body[1] = periods_in_ticks[-index-1]
+                top_tail[0] = arred(periods_in_ticks[-index], 7)    # bottom of t.tail
+                body[1] = arred(periods_in_ticks[-index-1], 7)
                 if el > 2:
                     break
         
         base = None
         body_size_ticks = body[1] - body[0]
         # body_size_ticks = format(body_size_ticks, '.7f')
-        body_size_percent = format(body_size_ticks/body[0]*100, '.1f')
+        # body_size_percent = format(body_size_ticks/body[0]*100, '.1f')
+        top_tail_percent = arred(((top_tail[1]-top_tail[0])/top_tail[0])*100 , 1)
+        body_size_percent = arred(body_size_ticks/body[0]*100, 1)
+        bottom_tail_percent = arred(((bottom_tail[1]-bottom_tail[0])/bottom_tail[0])*100 , 1)
         return (
             top_tail,
             body,
-            body_size_ticks,
+            arred(body_size_ticks, 7),
             body_size_percent,
-            bottom_tail)
+            bottom_tail,
+            top_tail_percent,
+            bottom_tail_percent)
     main_metrics = mp_2h_levels(periods_mp)
     # Save all results to DB
     mp_2h_data : isinstance = MP_Two_Hours(
@@ -68,13 +74,26 @@ def master(periods_in_ticks, symbol, session_data):
                 session=session_data,
                 top_tail=main_metrics[0],
                 body=main_metrics[1],
-                body_size_ticks=format(main_metrics[2], '.7f'),
+                body_size_ticks=main_metrics[2],
                 body_size_percent=main_metrics[3],
                 bottom_tail=main_metrics[4],
                 periods_mp=periods_mp,
+                top_tail_percent=main_metrics[5],
+                bottom_tail_percent=main_metrics[6]
             )
     if not MP_Two_Hours.objects.filter(symbol=symbol, session=session_data):
                 mp_2h_data.save()
+    else:   # update
+        MP_Two_Hours.objects.filter(symbol=symbol, session=session_data).update(
+                top_tail=main_metrics[0],
+                body=main_metrics[1],
+                body_size_ticks=main_metrics[2],
+                body_size_percent=main_metrics[3],
+                bottom_tail=main_metrics[4],
+                periods_mp=periods_mp,
+                top_tail_percent=main_metrics[5],
+                bottom_tail_percent=main_metrics[6]
+            )
     # # print(symbol, session_data)
     # # print(periods_mp)
     # print('bottom_tail, top_tail: ', main_metrics)
@@ -111,7 +130,7 @@ def main():
     assets : list = AssetSymbol.objects.all()
     # It runs every session by asset
     def func_sessions(asset):
-        sessions = DailyPrices.objects.filter(symbol=asset, session_date__range=[enddate, startdate])          # get last 7 sessions
+        sessions = DailyPrices.objects.filter(symbol=asset, session_date__range=[enddate, startdate])          # get from given range
         for ses in sessions:
             prepair_mp2h(ses)
     for asset in assets:

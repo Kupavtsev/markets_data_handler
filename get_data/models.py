@@ -69,7 +69,7 @@ class DailyPrices(models.Model):
         db_table = "daily_prices"
         verbose_name = 'Daily (TR, ATR, ATR levs, 2SesHL)'
         verbose_name_plural = 'Daily (TR, ATR, ATR levs, 2SesHL)'
-        ordering = ['-session_date']
+        ordering = ['symbol', '-session_date']
         unique_together = ('symbol', 'session_date')
 
 class ATR(models.Model):
@@ -88,6 +88,7 @@ class ATR(models.Model):
 
     class Meta:
         db_table = "atr"
+        ordering = ['symbol', '-session']
         unique_together = ('symbol', 'session')
 
 
@@ -106,22 +107,24 @@ class Two_Hours(models.Model):
         db_table = "two_hours_prices"
         verbose_name = 'Two Hours'
         verbose_name_plural = 'Two Hours'
-        ordering = ['-session_date']
+        ordering = ['symbol', '-session_date']
         unique_together = ('symbol', 'start_of_candle')
 
 class MP_Two_Hours(models.Model):
     symbol = models.CharField(max_length=20, db_index=True)
     session = models.DateField()
     top_tail = ArrayField(base_field=models.FloatField(null=True, blank=True), default=list, null=True, blank=True, verbose_name='top tail')
+    top_tail_percent = models.FloatField(null=True, blank=True)
     body = ArrayField(base_field=models.FloatField(null=True, blank=True), default=list, null=True, blank=True, verbose_name='body')
     body_size_ticks = models.FloatField(null=True, blank=True)
     body_size_percent = models.FloatField(null=True, blank=True)
     bottom_tail = ArrayField(base_field=models.FloatField(null=True, blank=True), default=list, null=True, blank=True, verbose_name='bottom tail')
+    bottom_tail_percent = models.FloatField(null=True, blank=True)
     periods_mp = ArrayField(base_field=models.IntegerField(null=True, blank=True), default=list, null=True, blank=True, verbose_name='visual market profile')
 
     class Meta:
         db_table = "mp_two_hours"
         verbose_name = 'MP Two Hours'
         verbose_name_plural = 'MP Two Hours'
-        ordering = ['-session']
+        ordering = ['symbol', '-session']
         unique_together = ('symbol', 'session')

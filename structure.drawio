@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-03-19T16:56:13.546Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.5 Chrome/114.0.5735.243 Electron/25.3.1 Safari/537.36" etag="N_LuTeoKe9YvmM9p-AgV" version="21.6.5" type="device" pages="8">
+<mxfile host="Electron" modified="2024-03-20T16:02:42.010Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.5 Chrome/114.0.5735.243 Electron/25.3.1 Safari/537.36" etag="ZtHoac5IAHq0w-OsgSu2" version="21.6.5" type="device" pages="9">
   <diagram id="d9sCb0YppfIdgZC53llZ" name="main">
     <mxGraphModel dx="1418" dy="828" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="none" math="0" shadow="0">
       <root>
@@ -331,6 +331,9 @@
         <mxCell id="okv3gJthDedKxX0_HybI-1" value="Frontend: Current&lt;br&gt;price +/- %/ticks" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" parent="1" vertex="1">
           <mxGeometry x="320" y="290" width="180" height="80" as="geometry" />
         </mxCell>
+        <mxCell id="gS2cvLNoiGsO5i-xx8y6-1" value="&lt;h1&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Inside previous Tail&lt;/span&gt;&lt;/h1&gt;&lt;div&gt;Take current price (5m) and compare with ...&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=20;fontFamily=Architects Daughter;" vertex="1" parent="1">
+          <mxGeometry x="40" y="260" width="230" height="310" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
@@ -339,7 +342,7 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="6txV99dCQbS7PHTob7Q_-1" value="&lt;h1&gt;Position Size&lt;/h1&gt;&lt;p style=&quot;line-height: 40%;&quot;&gt;1. Total Risk on Deal&lt;/p&gt;&lt;p style=&quot;line-height: 90%;&quot;&gt;2. What part in percent of the move you can expect&lt;/p&gt;&lt;p style=&quot;line-height: 90%;&quot;&gt;3. Compare asset move by ATR (%). Current VIX in asset , Sectorand BTC!&lt;/p&gt;&lt;p style=&quot;line-height: 90%;&quot;&gt;4.Stop in %&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=20;fontFamily=Architects Daughter;" parent="1" vertex="1">
+        <mxCell id="6txV99dCQbS7PHTob7Q_-1" value="&lt;h1&gt;Position Size&lt;/h1&gt;&lt;p style=&quot;line-height: 40%;&quot;&gt;1. Total Risk on Deal&lt;/p&gt;&lt;p style=&quot;line-height: 90%;&quot;&gt;2. What part in percent of the move you can expect&lt;/p&gt;&lt;p style=&quot;line-height: 90%;&quot;&gt;3. Compare asset move by ATR (%). Current VIX in asset , Sector and BTC!&lt;/p&gt;&lt;p style=&quot;line-height: 90%;&quot;&gt;4.Stop in %&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=20;fontFamily=Architects Daughter;" parent="1" vertex="1">
           <mxGeometry x="40" y="30" width="210" height="400" as="geometry" />
         </mxCell>
       </root>
@@ -357,7 +360,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="-lxaVRZBS_UT4avhhL8L" name="project">
-    <mxGraphModel dx="1434" dy="844" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2336" pageHeight="1654" math="0" shadow="0">
+    <mxGraphModel dx="1418" dy="828" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2336" pageHeight="1654" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -479,7 +482,7 @@
         <mxCell id="Co66RrKrEzJPB7BvggP1-33" value="&lt;div style=&quot;color: rgb(101, 123, 131); background-color: rgb(253, 246, 227); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;prepair_mp2h(&lt;span style=&quot;color: #268bd2;&quot;&gt;ses&lt;/span&gt;)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" parent="Co66RrKrEzJPB7BvggP1-30" vertex="1">
           <mxGeometry x="10" y="150" width="220" height="38" as="geometry" />
         </mxCell>
-        <mxCell id="KTTkig7f6_DNqJgxs10y-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=16;" edge="1" parent="Co66RrKrEzJPB7BvggP1-30" source="Co66RrKrEzJPB7BvggP1-39">
+        <mxCell id="KTTkig7f6_DNqJgxs10y-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=16;" parent="Co66RrKrEzJPB7BvggP1-30" source="Co66RrKrEzJPB7BvggP1-39" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="270" y="227" as="targetPoint" />
           </mxGeometry>
@@ -526,17 +529,46 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="KTTkig7f6_DNqJgxs10y-1" value="&lt;div style=&quot;color: rgb(101, 123, 131); background-color: rgb(253, 246, 227); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-weight: normal; font-size: 14px; line-height: 19px;&quot;&gt;def &lt;span style=&quot;color: #268bd2;&quot;&gt;master&lt;/span&gt;(periods_in_ticks, symbol, session_data)&lt;/div&gt;" style="swimlane;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="1">
+        <mxCell id="KTTkig7f6_DNqJgxs10y-1" value="&lt;div style=&quot;color: rgb(101, 123, 131); background-color: rgb(253, 246, 227); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-weight: normal; font-size: 14px; line-height: 19px;&quot;&gt;def &lt;span style=&quot;color: #268bd2;&quot;&gt;master&lt;/span&gt;(periods_in_ticks, symbol, session_data)&lt;/div&gt;" style="swimlane;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" parent="1" vertex="1">
           <mxGeometry x="1220" y="860" width="300" height="180" as="geometry" />
         </mxCell>
-        <mxCell id="KTTkig7f6_DNqJgxs10y-2" value="&lt;div style=&quot;color: rgb(101, 123, 131); background-color: rgb(253, 246, 227); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;data_2h()=&amp;gt; high&amp;amp;low of each 2h&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="KTTkig7f6_DNqJgxs10y-1">
+        <mxCell id="KTTkig7f6_DNqJgxs10y-2" value="&lt;div style=&quot;color: rgb(101, 123, 131); background-color: rgb(253, 246, 227); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;data_2h()=&amp;gt; high&amp;amp;low of each 2h&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" parent="KTTkig7f6_DNqJgxs10y-1" vertex="1">
           <mxGeometry y="30" width="300" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="KTTkig7f6_DNqJgxs10y-3" value="&lt;div style=&quot;color: rgb(101, 123, 131); background-color: rgb(253, 246, 227); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;mp_calc()=&amp;gt; periods_mp (in numbers)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="KTTkig7f6_DNqJgxs10y-1">
+        <mxCell id="KTTkig7f6_DNqJgxs10y-3" value="&lt;div style=&quot;color: rgb(101, 123, 131); background-color: rgb(253, 246, 227); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;mp_calc()=&amp;gt; periods_mp (in numbers)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" parent="KTTkig7f6_DNqJgxs10y-1" vertex="1">
           <mxGeometry y="80" width="300" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="KTTkig7f6_DNqJgxs10y-4" value="&lt;div style=&quot;color: rgb(101, 123, 131); background-color: rgb(253, 246, 227); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;mp_2h_levels(&lt;span style=&quot;color: #268bd2;&quot;&gt;periods_mp&lt;/span&gt;) =&amp;gt; tails, body&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="KTTkig7f6_DNqJgxs10y-1">
+        <mxCell id="KTTkig7f6_DNqJgxs10y-4" value="&lt;div style=&quot;color: rgb(101, 123, 131); background-color: rgb(253, 246, 227); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;mp_2h_levels(&lt;span style=&quot;color: #268bd2;&quot;&gt;periods_mp&lt;/span&gt;) =&amp;gt; tails, body&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" parent="KTTkig7f6_DNqJgxs10y-1" vertex="1">
           <mxGeometry y="130" width="300" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="AScFBac6SKNQmvtizftx" name="current price">
+    <mxGraphModel dx="1418" dy="828" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="186KjE4BLTUbBghyTfpf-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.227;entryY=-0.083;entryDx=0;entryDy=0;entryPerimeter=0;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=16;" edge="1" parent="1" source="186KjE4BLTUbBghyTfpf-1" target="186KjE4BLTUbBghyTfpf-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="186KjE4BLTUbBghyTfpf-1" value="&lt;div style=&quot;color: rgb(101, 123, 131); background-color: rgb(253, 246, 227); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;how much price has moved by its ATR in Percents&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="186KjE4BLTUbBghyTfpf-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;hachureGap=4;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=16;" edge="1" parent="1" source="186KjE4BLTUbBghyTfpf-2" target="186KjE4BLTUbBghyTfpf-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="186KjE4BLTUbBghyTfpf-2" value="&lt;div style=&quot;color: rgb(101, 123, 131); background-color: rgb(253, 246, 227); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;price change from the Open in Percents&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="370" y="110" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="186KjE4BLTUbBghyTfpf-3" value="&lt;div style=&quot;color: rgb(101, 123, 131); background-color: rgb(253, 246, 227); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;(price_movemnt_by_atr[&lt;span style=&quot;color: #268bd2;&quot;&gt;asset&lt;/span&gt;] &lt;span style=&quot;color: #859900;&quot;&gt;/&lt;/span&gt; &lt;span style=&quot;color: #268bd2;&quot;&gt;price_open&lt;/span&gt;)&lt;span style=&quot;color: #859900;&quot;&gt;*&lt;/span&gt;&lt;span style=&quot;color: #d33682;&quot;&gt;100&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="320" y="210" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="186KjE4BLTUbBghyTfpf-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=16;" edge="1" parent="1" source="186KjE4BLTUbBghyTfpf-5" target="186KjE4BLTUbBghyTfpf-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="186KjE4BLTUbBghyTfpf-5" value="&lt;div style=&quot;color: rgb(101, 123, 131); background-color: rgb(253, 246, 227); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;(price_movement_by_atr_in_percent[&lt;span style=&quot;color: #268bd2;&quot;&gt;asset&lt;/span&gt;]&lt;span style=&quot;color: #859900;&quot;&gt;/&lt;/span&gt;(atrs[&lt;span style=&quot;color: #268bd2;&quot;&gt;asset&lt;/span&gt;]&lt;span style=&quot;color: #859900;&quot;&gt;*&lt;/span&gt;&lt;span style=&quot;color: #d33682;&quot;&gt;100&lt;/span&gt;))&lt;span style=&quot;color: #859900;&quot;&gt;*&lt;/span&gt;&lt;span style=&quot;color: #d33682;&quot;&gt;100&lt;/span&gt;)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="10" y="300" width="510" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
