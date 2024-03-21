@@ -1,4 +1,5 @@
 from celery import shared_task
+from django.http import HttpResponse
 from django.utils import timezone
 from datetime import datetime
 
@@ -6,6 +7,23 @@ from .binance_api import data_from_binance
 from .models import AssetSymbol, DailyPrices
 from .checker import response_to_db, atr_calc_for_last_session, trs_save_to_db
 
+
+@shared_task
+def realtime_data(bind=True):
+    assets : list = AssetSymbol.objects.all()
+    request_days = 1
+    # start = time.time()
+    try:
+        response : dict = data_from_binance(assets, request_days, interval='1m')
+    except Exception:
+        print(Exception)
+        response = {}
+    # print('response: ', type(response), len(response))
+    start_of_candle = datetime.fromtimestamp(response['ACHUSDT'][0][0]/1000, timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+    last = datetime.fromtimestamp(response['ACHUSDT'][-1][0]/1000, timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+    print('response: ', start_of_candle, last)
+    # end = time.time()
+    # time_taken_req =  end - start
 
 @shared_task(bind=True)
 def check_response(self):

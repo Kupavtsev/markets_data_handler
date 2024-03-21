@@ -3,7 +3,9 @@ import rel
 
 cc = 'btcusdt'
 interval = '1m'
+# this is spot
 socket = f'wss://stream.binance.com:9443/ws/{cc}@kline_{interval}'
+socket_fut = f'wss://fstream.binance.com/stream?streams=bnbusdt@aggTrade/btcusdt@markPrice'
 
 ws = websocket
 
@@ -19,16 +21,16 @@ def on_message(ws, message):
     low = candle['l']
     vol = candle['v']
 
-    if is_candle_closed:
-        closes.append(float(close))
-        highs.append(float(high))
-        lows.append(float(low))
+    # if is_candle_closed:
+    #     closes.append(float(close))
+    #     highs.append(float(high))
+    #     lows.append(float(low))
 
-    print('closes: ', closes)
-    print('highs: ', highs)
-    print('lows: ', lows)
+    # print('closes: ', closes)
+    # print('highs: ', highs)
+    # print('lows: ', lows)
 
-    # print(close)
+    print(cc, '=> ',close)
     # print(high)
     # print(low)
     # print(vol)

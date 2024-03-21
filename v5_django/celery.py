@@ -18,8 +18,10 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.conf.beat_schedule = {
     'get_data_binance_api' : {
         # 'task': 'get_data.tasks.check_response',
-        'task': 'get_data.tasks.add_to_db',
-        'schedule': crontab(hour=00, minute=5),
+        # 'task': 'get_data.tasks.add_to_db',
+        'task': 'get_data.tasks.realtime_data',
+        'schedule': 60,
+        # 'schedule': crontab(hour=00, minute=5),
         # 'args': (2,),   # you can pass this args to check_response(args)
     }
 }
