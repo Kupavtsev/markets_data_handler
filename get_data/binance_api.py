@@ -1,6 +1,7 @@
 import os
 from binance import Client
 # from binance import Client, ThreadedWebsocketManager, ThreadedDepthCacheManager
+import datetime as dt
 from datetime import datetime, timedelta
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
@@ -13,6 +14,32 @@ from .checker import utcnow
 headers = ['Kline open time', 'Open price', 'High price', 'Low price', 'Close price', 'Volume', 'Kline Close time',
             'Quote asset volume', 'Number of trades', 'Taker buy base asset volume', 'Taker buy quote asset volume', 'Unused field, ignore']
 '''
+def realtime(assets):
+    f_klines = {}
+    def check_binanceklines(
+            asset,
+            interval = Client.KLINE_INTERVAL_1MINUTE,
+            limit = 5,      # minutes request
+            end = int(dt.datetime.now(dt.timezone.utc).timestamp() * 1000)
+        ):
+        binance = Client()
+        f_klines[asset.name] = binance.futures_klines(symbol=asset,interval=interval,endTime=end,limit=limit)
+
+    with ThreadPoolExecutor() as executor:
+        executor.map(check_binanceklines, assets)
+
+    return f_klines
+
+# def check_binanceklines(
+#         symbol = 'BTCUSDT',
+#         interval = Client.KLINE_INTERVAL_5MINUTE,
+#         limit = 30,
+#         end = int(dt.datetime.now(dt.timezone.utc).timestamp() * 1000)
+#     ):
+#     binance = Client()
+#     return binance.futures_klines(symbol=symbol,interval=interval,endTime=end,limit=limit)
+
+
 
 # SECRET INFO
 # Connection with Binance API
@@ -51,6 +78,22 @@ def data_from_binance(assets, request_days, interval) -> dict:
 
     return fh_klines
 
+def real_time_data_binance(assets) -> dict:
+    print('real_time_data_binance')
+    client = security()
+    f_klines = {}
+
+    def request_thread(asset):
+        realtime = client.futures_klines(
+            symbol=asset,
+
+        )
+        f_klines[asset.name] = realtime
+
+    with ThreadPoolExecutor() as executor:
+        executor.map(request_thread, assets)
+
+    return f_klines
 
 # def data_from_binance(assets, request_days, interval) -> dict:
     print('data_from_binance func')

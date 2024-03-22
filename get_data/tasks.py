@@ -2,8 +2,9 @@ from celery import shared_task
 from django.http import HttpResponse
 from django.utils import timezone
 from datetime import datetime
+import time
 
-from .binance_api import data_from_binance
+from .binance_api import data_from_binance, realtime
 from .models import AssetSymbol, DailyPrices
 from .checker import response_to_db, atr_calc_for_last_session, trs_save_to_db
 
@@ -11,19 +12,26 @@ from .checker import response_to_db, atr_calc_for_last_session, trs_save_to_db
 @shared_task
 def realtime_data(bind=True):
     assets : list = AssetSymbol.objects.all()
-    request_days = 1
-    # start = time.time()
+    # request_days = 1
+    start = time.time()
     try:
-        response : dict = data_from_binance(assets, request_days, interval='1m')
+        response : list = realtime(assets)
     except Exception:
         print(Exception)
-        response = {}
+        response = []
     # print('response: ', type(response), len(response))
-    start_of_candle = datetime.fromtimestamp(response['ACHUSDT'][0][0]/1000, timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
-    last = datetime.fromtimestamp(response['ACHUSDT'][-1][0]/1000, timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
-    print('response: ', start_of_candle, last)
-    # end = time.time()
-    # time_taken_req =  end - start
+    # start_of_candle = datetime.fromtimestamp(response['ACHUSDT'][0][0]/1000, timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+    # last = datetime.fromtimestamp(response['ACHUSDT'][-1][0]/1000, timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+    # print('response: ', start_of_candle, last)
+    end = time.time()
+    time_taken_req =  end - start
+    # print('send responde to func=> cp,2hmp, atr, levels')
+    # print('which is will save data to db')
+    # print('from where I will pull the data to front every 3min')
+    for symbol, values in response.items():
+        print(symbol, '=>', values[-1][4])
+
+        
 
 @shared_task(bind=True)
 def check_response(self):

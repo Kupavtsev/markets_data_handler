@@ -20,7 +20,7 @@ app.conf.beat_schedule = {
         # 'task': 'get_data.tasks.check_response',
         # 'task': 'get_data.tasks.add_to_db',
         'task': 'get_data.tasks.realtime_data',
-        'schedule': 60,
+        'schedule': 50,
         # 'schedule': crontab(hour=00, minute=5),
         # 'args': (2,),   # you can pass this args to check_response(args)
     }

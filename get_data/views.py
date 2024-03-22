@@ -16,10 +16,11 @@ from get_data.serializers import ATRSerializer
 # import pandas as pd
 
 from .tasks import check_response
-from .binance_api import data_from_binance
+from .binance_api import data_from_binance, real_time_data_binance
 from .models import AssetSymbol, ATR
 
-from .checker import response_to_db, atr_calc_for_last_session, trs_save_to_db, response_2h_to_db
+from .checker import response_to_db, atr_calc_for_last_session, \
+            trs_save_to_db, response_2h_to_db
 from get_data.logic.mp import main
     
 def index(request):
@@ -41,7 +42,23 @@ def calc_2h_mp(request):
     main()
     return HttpResponse('calc_2h_mp')
 
-# In Celery and do it every 2H
+def test_request(request):
+    assets : list = AssetSymbol.objects.all()
+    request_days = 4
+    start = time.time()
+    try:
+        response : dict = real_time_data_binance(assets)
+    except Exception:
+        print(Exception)
+        response = {}
+    print('response: ', type(response), len(response))
+    print('response: ', response)
+    end = time.time()
+    time_taken_req =  end - start
+    print('time_taken: ', end - start)
+    return HttpResponse(f'Test request done. Request take {time_taken_req}')
+
+# In Celery and do it every 2H. No this is historical data
 def two_hours_to_db(request):
     assets : list = AssetSymbol.objects.all()
     request_days = 4
