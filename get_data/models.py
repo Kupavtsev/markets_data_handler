@@ -121,6 +121,7 @@ class MP_Two_Hours(models.Model):
     bottom_tail = ArrayField(base_field=models.FloatField(null=True, blank=True), default=list, null=True, blank=True, verbose_name='bottom tail')
     bottom_tail_percent = models.FloatField(null=True, blank=True)
     periods_mp = ArrayField(base_field=models.IntegerField(null=True, blank=True), default=list, null=True, blank=True, verbose_name='visual market profile')
+    periods_visualization = models.JSONField(null=True, blank=True)
 
     class Meta:
         db_table = "mp_two_hours"

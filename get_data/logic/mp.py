@@ -12,19 +12,23 @@ from datetime import date, timedelta
 startdate = date.today()
 enddate = startdate - timedelta(days=6)
 startdate = startdate - timedelta(days=1)
+arred = lambda x,n : x*(10**n)//1/(10**n)
 
+# logic flows from bottom to top
 def master(periods_in_ticks, symbol, session_data):
-    symbol = symbol
-    session_data = session_data
-    periods_in_ticks = periods_in_ticks
-    periods_mp   = [0]*len(periods_in_ticks)
-    def mp_calc(hl):
-        h = hl[0]
-        l = hl[1]
+    symbol : str = symbol
+    session_data : str = session_data
+    periods_in_ticks : list = periods_in_ticks
+    periods_mp : list = [0]*len(periods_in_ticks)
+    periods_visualization : dict = {}       # as also can be list of lists [[price, num],[price,num]]
+    def mp_calc(hl):                        # fills periods_mp & dict for visual construct
+        h : float = hl[0]
+        l : float = hl[1]
         # tick = 1.1    # why I dont used it?
         for k in range(len(periods_mp)):
             if periods_in_ticks[k] >= l and periods_in_ticks[k] <= h:
                 periods_mp[k] = periods_mp[k]+1
+                periods_visualization[arred(periods_in_ticks[k], 7)] = periods_mp[k]
     def data_2h():
         db_2h_ohlc = Two_Hours.objects.filter(symbol=symbol, session_date=session_data)
         for hl in db_2h_ohlc:
@@ -79,7 +83,8 @@ def master(periods_in_ticks, symbol, session_data):
                 bottom_tail=main_metrics[4],
                 periods_mp=periods_mp,
                 top_tail_percent=main_metrics[5],
-                bottom_tail_percent=main_metrics[6]
+                bottom_tail_percent=main_metrics[6],
+                periods_visualization=periods_visualization
             )
     if not MP_Two_Hours.objects.filter(symbol=symbol, session=session_data):
                 mp_2h_data.save()
@@ -92,10 +97,11 @@ def master(periods_in_ticks, symbol, session_data):
                 bottom_tail=main_metrics[4],
                 periods_mp=periods_mp,
                 top_tail_percent=main_metrics[5],
-                bottom_tail_percent=main_metrics[6]
+                bottom_tail_percent=main_metrics[6],
+                periods_visualization=periods_visualization
             )
-    # # print(symbol, session_data)
-    # # print(periods_mp)
+    # print(symbol, session_data)
+    # print(periods_visualization)
     # print('bottom_tail, top_tail: ', main_metrics)
     
     # print('body, ticks/%: ',body_size_ticks, body_size_percent)

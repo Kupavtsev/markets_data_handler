@@ -9,14 +9,18 @@ class Position_Size():
     max_position = balace / lots
     # LOGIC
     max_position_amount = balace / lots
-    def __init__(self, data) -> None:
-        self.cp = data['current price']
-        self.atr = data['atr']
-        self.atr_prc = data['atr%']
-        self.body = data['body']
-        self.body_prc = data['body%']
-        self.tail = data['tail']
-        self.tail_prc = data['tail%']
+    def __init__(self, symbol, lp, body_size_ticks, body_prc) -> None:
+        self.symbol = symbol
+        self.cp = lp
+        self.body = body_size_ticks
+        self.body_prc = body_prc
+        # self.cp = data['current price']
+        # self.atr = data['atr']
+        # self.atr_prc = data['atr%']
+        # self.body = data['body']
+        # self.body_prc = data['body%']
+        # self.tail = data['tail']
+        # self.tail_prc = data['tail%']
 
     def pos_size(self):
         half_body_risk = Position_Size.max_position_amount * (self.body_prc/100) / 2
@@ -29,7 +33,7 @@ class Position_Size():
         margin3 = amount_of_position / 3
         margin5 = amount_of_position / 5
         margin10 = amount_of_position / 10
-        return (futures_pos, max_prc_stop)
+        return (futures_pos, max_prc_stop, amount_of_position)
     
 
 

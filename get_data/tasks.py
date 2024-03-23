@@ -4,6 +4,8 @@ from django.utils import timezone
 from datetime import datetime
 import time
 
+from get_data.logic.lastprice import work_with_last_price
+
 from .binance_api import data_from_binance, realtime
 from .models import AssetSymbol, DailyPrices
 from .checker import response_to_db, atr_calc_for_last_session, trs_save_to_db
@@ -29,7 +31,9 @@ def realtime_data(bind=True):
     # print('which is will save data to db')
     # print('from where I will pull the data to front every 3min')
     for symbol, values in response.items():
-        print(symbol, '=>', values[-1][4])
+        session_date = datetime.fromtimestamp(values[-1][0]/1000, timezone.utc).strftime("%Y-%m-%d")
+        # print(symbol, '=>', values[-1][4], session_date)
+        work_with_last_price(symbol, session_date, float(values[-1][4]))
 
         
 
