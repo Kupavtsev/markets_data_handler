@@ -8,6 +8,22 @@ Main Page
 </style>
 {% endblock %}
 {% block body %}
+<div>Requested
+    <!-- <input class="btn btn-primary" type="submit" value="connect" > -->
+    <a href="http://127.0.0.1:8500/add/">
+        <input class="btn btn-primary" type="submit" value="Daily: {{ last_date }}">
+    </a>
+    <a href="http://127.0.0.1:8500/add_2h/">
+        <input class="btn btn-primary" type="submit" value="2H: {{ last_2h }}">
+    </a>
+    &nbsp;Calcs:
+    <a href="http://127.0.0.1:8500/atrtotal/">
+        <input class="btn btn-primary" type="submit" value="DT_ATR: {{ last_atr_date }}">
+    </a>
+    <a href="http://127.0.0.1:8500/mp2h/">
+        <input class="btn btn-primary" type="submit" value="2HMP: {{ last_2hmp_date }}">
+    </a>
+</div>
 <div class="container-fluid">
     <h1>Global Situation</h1>
 
@@ -49,8 +65,12 @@ Main Page
             <div class="col">
                 {{asset.name}}
             </div>
-            <div class="col">
-                0.01545
+            <div class="col" id="price">
+                <script>
+                    const lp_data = new WebSocket();
+                    let price = document.getElementById("price");
+                    price.innerHTML = 0.0033;
+                </script>
             </div>
             <div class="col">
                 high|low|inside
@@ -73,22 +93,10 @@ Main Page
         </div>
         {% endfor %}
     </div>
-
-
-    <div> Requests:
-        <!-- <input class="btn btn-primary" type="submit" value="connect" > -->
-        <a href="http://127.0.0.1:8500/add/"><input class="btn btn-primary" type="submit" value="toDay OHLC ATR levels 2Ses"></a>
-        <a href="http://127.0.0.1:8500/add_2h/"><input class="btn btn-primary" type="submit" value="2h_to_db"></a>
-    </div>
-    <br>
-    <div> Calculators:
-        <a href="http://127.0.0.1:8500/atrtotal/"><input class="btn btn-primary" type="submit" value="all ATRs"></a>
-        <a href="http://127.0.0.1:8500/mp2h/"><input class="btn btn-primary" type="submit" value="2h_mp_calc"></a>
-    </div>
 </div>
 
 {% endblock %}
 {% block js %}
 <script>
-</script>
+</scrip>
 {% endblock %}

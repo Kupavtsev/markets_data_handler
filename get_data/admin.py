@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import PlatformExchange, Sector, AssetSymbol, DailyPrices, ATR, Two_Hours, MP_Two_Hours
+from .models import PlatformExchange, Sector, AssetSymbol, \
+         DailyPrices, ATR, Two_Hours, MP_Two_Hours, RealTimeData
 
 
 class DailyPricesAdmin(admin.ModelAdmin):
@@ -19,6 +20,10 @@ class MP_Two_HoursAdmin(admin.ModelAdmin):
     list_display = ('session', 'symbol', 'body_size_percent', 'top_tail_percent', 'bottom_tail_percent')
     list_display_links = ('session', 'symbol')
 
+class RealTimeDataAdmin(admin.ModelAdmin):
+    list_display = ('session', 'request_time', 'symbol', 'last_price', 'futures_pos', 'amount_of_position')
+    list_display_links = ('session', 'symbol', 'last_price', 'futures_pos', 'amount_of_position')
+
 admin.site.register(MP_Two_Hours, MP_Two_HoursAdmin)
 admin.site.register(DailyPrices, DailyPricesAdmin)
 admin.site.register(ATR, ATRsAdmin)
@@ -26,3 +31,4 @@ admin.site.register(Two_Hours, Two_HoursAdmin)
 admin.site.register(Sector)
 # admin.site.register(PlatformExchange)
 admin.site.register(AssetSymbol)
+admin.site.register(RealTimeData, RealTimeDataAdmin)

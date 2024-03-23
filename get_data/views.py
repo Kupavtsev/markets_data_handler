@@ -4,12 +4,14 @@ from django.http import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 import time
 
 
-from get_data.serializers import ATRSerializer
+from get_data.serializers import ATRSerializer, RealTimeDataSerializer
 # from datetime import datetime
 
 # import numpy as np
@@ -17,7 +19,8 @@ from get_data.serializers import ATRSerializer
 
 from .tasks import check_response
 from .binance_api import data_from_binance, real_time_data_binance
-from .models import AssetSymbol, ATR
+from .models import AssetSymbol, ATR, RealTimeData, \
+                    DailyPrices, Two_Hours, MP_Two_Hours
 
 from .checker import response_to_db, atr_calc_for_last_session, \
             trs_save_to_db, response_2h_to_db
@@ -26,9 +29,24 @@ from get_data.logic.mp import main
 def index(request):
     if request.method == 'GET':  
         assets : list = AssetSymbol.objects.all()
+        last_date = DailyPrices.objects.first().session_date
+        last_2h = Two_Hours.objects.first().session_date
+        last_atr_date = ATR.objects.first().session
+        last_2hmp_date = MP_Two_Hours.objects.first().session
         # for asset in assets:
         #     print(asset.sector, asset.name)
-        return render(request, 'get_data/index.html', {'assets':assets})
+        
+        return render(
+            request,
+            'get_data/index.html',
+                {
+                'assets':assets,
+                'last_date':last_date,
+                'last_2h':last_2h,
+                'last_atr_date': last_atr_date,
+                'last_2hmp_date': last_2hmp_date
+                }
+            )
     else:
         return HttpResponse('Wrong method: 405')
     
@@ -120,17 +138,25 @@ def add_to_db(request):
         print('no response')
 
     return HttpResponse(f'Days, ATR & levels for today, 2 ses H/L, Request take {time_taken_req}. Add to DB take {time_taken_db}')
-
+    # return HttpResponseRedirect(reverse('get_data:index'))
 
 def atr(request):
     print('Start to calc all ATRs from DB')
     atr_calc_for_last_session('atr_total')
     return HttpResponse('atrs...')
 
+# API REST
 
 @api_view(['GET', 'POST'])
 def ohlc_atr(request):
     if request.method == 'GET':
         data = ATR.objects.all()
         serializer = ATRSerializer(data, many=True)
+        return Response(serializer.data)
+    
+@api_view(['GET', 'POST'])
+def rt_data(request):
+    if request.method == 'GET':
+        data = RealTimeData.objects.all()
+        serializer = RealTimeDataSerializer(data, many=True)
         return Response(serializer.data)

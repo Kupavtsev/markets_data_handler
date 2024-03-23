@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ATR, AssetSymbol, DailyPrices
+from .models import ATR, RealTimeData
 
 class ATRSerializer(serializers.ModelSerializer):
 
@@ -14,4 +14,17 @@ class ATRSerializer(serializers.ModelSerializer):
             'Close',
             'Volume',
             'atr',
+        )
+
+class RealTimeDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RealTimeData
+        fields = (
+            'symbol',
+            'session',
+            'request_time',
+            'last_price',
+            'futures_pos',
+            'max_prc_stop',
+            'amount_of_position',
         )

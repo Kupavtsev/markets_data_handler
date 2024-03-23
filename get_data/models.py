@@ -129,3 +129,20 @@ class MP_Two_Hours(models.Model):
         verbose_name_plural = 'MP Two Hours'
         ordering = ['symbol', '-session']
         unique_together = ('symbol', 'session')
+
+
+class RealTimeData(models.Model):
+    symbol = models.CharField(max_length=20, db_index=True)
+    session = models.DateField()
+    request_time = models.DateTimeField(auto_now_add=True)
+    last_price = models.FloatField(null=True, blank=True)
+    futures_pos = models.FloatField(null=True, blank=True)
+    max_prc_stop = models.FloatField(null=True, blank=True)
+    amount_of_position = models.FloatField(null=True, blank=True)
+
+    class Meta:
+        db_table = "realtime_celery"
+        verbose_name = 'RT Celery'
+        verbose_name_plural = 'RT Celery'
+        ordering = ['symbol', '-session']
+        # unique_together = ('symbol', 'session')
