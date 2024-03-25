@@ -23,8 +23,9 @@ class Position_Size():
         # self.tail_prc = data['tail%']
 
     def pos_size(self):
+        arred = lambda x,n : x*(10**n)//1/(10**n)
         half_body_risk = Position_Size.max_position_amount * (self.body_prc/100) / 2
-        amount_of_position = Position_Size.max_position_amount / half_body_risk
+        amount_of_position = arred((Position_Size.max_position_amount / half_body_risk), 1)
         futures_pos = amount_of_position / self.cp
         max_prc_stop = self.body_prc/2
         max_stop_long = self.cp - self.body/2

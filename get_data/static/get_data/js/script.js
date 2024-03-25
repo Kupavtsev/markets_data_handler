@@ -1,18 +1,63 @@
 // Request last price data
 
+// v1
+// async function loadRTData() {
+setInterval(async function loadRTData() {
+    const response = await fetch('http://127.0.0.1:8500/api/rt_data');
+    
+    if (!response.ok) {
+        const message = `An error has occured: ${response.status}`;
+        throw new Error(message);
+      }
+    
+    const lastPrice = await response.json();
+    console.log(lastPrice);
+    console.log(typeof lastPrice);
+    // Fronend deploy
+    // Light when something chanching
+    for (el in lastPrice) {
+        // document.getElementById(lastPrice[el]['symbol'] + "_price").innerHTML= [el]['last_price'];
+        // Last Price
+        asset = lastPrice[el]['symbol']
+        // console.log(asset);
+        var price = document.getElementById(asset + "_price");
+        price.innerHTML = lastPrice[el]['last_price']
+        // console.log(price)
+        // Amount of Position
+        var amount = document.getElementById(asset + "_amount");
+        amount.innerHTML = lastPrice[el]['amount_of_position'];
+    }
 
 
+    return lastPrice;
+// };
+}, 30000);
+// loadRTData()
 
 // v4 pure promise syntax
-setInterval(function loadRTData() {
-    fetch('http://127.0.0.1:8500/api/rt_data')
-    .then(response => response.json())
-    .then(commits => console.log(commits));
-    // .then(commits => alert(commits));
+// setInterval(function loadRTData() {
+//     fetch('http://127.0.0.1:8500/api/rt_data')
+//     .then(response => response.json())
+//     .then(commits => console.log(commits));
+//     // .then(commits => alert(commits));
     
-}, 30000)       // 30 sec
-// setInterval(loadRTData(), 5000);
+// }, 30000)       // 30 sec
 // loadRTData()
+
+// v2
+// async function loadRTData() {
+//     while(1) {
+//         await fetch("http://127.0.0.1:8500/api/rt_data");
+//         await new Promise(res => setTimeout(res, 1000));
+
+//         const lp = res.json()
+//         console.log(lp);
+//   }
+// };
+// loadRTData()
+
+
+
 
 // v3
 // async function subscribe() {
@@ -43,30 +88,5 @@ setInterval(function loadRTData() {
 // setInterval(subscribe(), 2000);
 
 
-// v1
-// async function loadRTData() {
-//     const response = await fetch('http://127.0.0.1:8500/api/rt_data');
-    
-//     if (!response.ok) {
-//         const message = `An error has occured: ${response.status}`;
-//         throw new Error(message);
-//       }
-    
-//     const lastPrice = await response.json();
-//     console.log(lastPrice);
-//     return lastPrice;
-// }
-// // setInterval(loadRTData(), 1000);
-// loadRTData()
 
-// v2
-// async function loadRTData() {
-//     while(1) {
-//         await fetch("http://127.0.0.1:8500/api/rt_data");
-//         await new Promise(res => setTimeout(res, 1000));
 
-//         const lp = res.json()
-//         console.log(lp);
-//   }
-// }
-// loadRTData()

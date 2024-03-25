@@ -35,7 +35,7 @@ def master(periods_in_ticks, symbol, session_data):
             mp_calc([hl.price_high, hl.price_low])
     data_2h()       # put all new data to periods_mp
     def mp_2h_levels(x):
-        arred = lambda x,n : x*(10**n)//1/(10**n)
+        # arred = lambda x,n : x*(10**n)//1/(10**n)
         data = x
         body = [0, 0]
         bottom_tail = [0,0]     # [low point, higher point]
