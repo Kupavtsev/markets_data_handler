@@ -1,4 +1,5 @@
 # from django.db.models import Q
+import json
 from django.http import HttpResponse
 # from django.utils import timezone
 from rest_framework.decorators import api_view
@@ -146,6 +147,23 @@ def atr(request):
     return HttpResponse('atrs...')
 
 # API REST
+# last_prices=[
+#     {
+#         "symbol": "ACHUSDT",
+#         "session": "2024-03-25",
+#         "request_time": "2024-03-24T18:20:03.328469Z",
+#         "last_price": 0.043466,
+#         "futures_pos": 939.040319,
+#         "max_prc_stop": 12.45,
+#         "amount_of_position": 40.8163
+#     },] 
+# def get_ajax_data(request=None):
+#     last_prices     
+#     # last_prices = 0.45
+#     if request is None:
+#         return last_prices
+#     else:
+#         return HttpResponse(json.dumps(last_prices), content_type='application/json')
 
 @api_view(['GET', 'POST'])
 def ohlc_atr(request):

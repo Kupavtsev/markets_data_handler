@@ -145,7 +145,7 @@ def main():
     time_taken =  end - start
     print(time_taken)   #2.2 ; 4.3/3.47
 
-# Work well 2
+# Work well 2, but Slower !?
 # def main():
 #     start = time.time()
 #     pool = Pool(processes=4)

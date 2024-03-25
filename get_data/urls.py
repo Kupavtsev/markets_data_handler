@@ -16,6 +16,7 @@ urlpatterns = [
    # logic
    path('mp2h/', views.calc_2h_mp, name='calc_2h_mp'),
    # api
+   # path('api/get_ajax_data', views.get_ajax_data, name='get_ajax_data'),
    path('api/ohlc_atr', views.ohlc_atr, name='ohlc_atr'),
    path('api/rt_data', views.rt_data, name='rt_data'),
 ]

@@ -14,6 +14,7 @@ from .checker import utcnow
 headers = ['Kline open time', 'Open price', 'High price', 'Low price', 'Close price', 'Volume', 'Kline Close time',
             'Quote asset volume', 'Number of trades', 'Taker buy base asset volume', 'Taker buy quote asset volume', 'Unused field, ignore']
 '''
+# Refactor to asyncio
 def realtime(assets):
     f_klines = {}
     def check_binanceklines(
@@ -95,24 +96,25 @@ def real_time_data_binance(assets) -> dict:
 
     return f_klines
 
+# Syncron variant
 # def data_from_binance(assets, request_days, interval) -> dict:
-    print('data_from_binance func')
-    now = datetime.utcnow()
-    # dd/mm/YY H:M:S
-    dt_string : str = now.strftime("%Y-%m-%d")
-    YDS : str = (datetime.utcnow()-timedelta(days=request_days)).strftime("%Y-%m-%d")
-    client : isinstance = security()
-    fh_klines : dict = {}
-    for asset in assets:
-        history : isinstance = client.futures_historical_klines(
-            symbol=asset,
-            interval=interval,  # can play with this e.g. '1h', '4h', '1w', etc.
-            start_str=YDS,
-            end_str=dt_string
-        )
-        fh_klines[asset.name] = history
+    # print('data_from_binance func')
+    # now = datetime.utcnow()
+    # # dd/mm/YY H:M:S
+    # dt_string : str = now.strftime("%Y-%m-%d")
+    # YDS : str = (datetime.utcnow()-timedelta(days=request_days)).strftime("%Y-%m-%d")
+    # client : isinstance = security()
+    # fh_klines : dict = {}
+    # for asset in assets:
+    #     history : isinstance = client.futures_historical_klines(
+    #         symbol=asset,
+    #         interval=interval,  # can play with this e.g. '1h', '4h', '1w', etc.
+    #         start_str=YDS,
+    #         end_str=dt_string
+    #     )
+    #     fh_klines[asset.name] = history
 
-    return fh_klines
+    # return fh_klines
 
 
 # class Binance_data():

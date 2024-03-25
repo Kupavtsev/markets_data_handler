@@ -1,4 +1,6 @@
+import json
 import django
+from django.http import HttpResponse
 django.setup()
 from get_data.models import MP_Two_Hours, RealTimeData
 from datetime import datetime, timedelta
@@ -18,6 +20,7 @@ def work_with_last_price(symbol, session_date, lp):
     ps = Position_Size(symbol, lp, body_size_ticks, body_prc)
     ps_res = ps.pos_size()
     print(ps.symbol, 'lp: ', lp, ps_res)
+
     # save data to DB
     rt_data : isinstance = RealTimeData(
         symbol = ps.symbol,
@@ -27,4 +30,21 @@ def work_with_last_price(symbol, session_date, lp):
         max_prc_stop = ps_res[1],
         amount_of_position = ps_res[2],
     )
-    rt_data.save()
+    if not RealTimeData.objects.filter(symbol=symbol):
+        rt_data.save()
+    else:
+        RealTimeData.objects.filter(symbol=symbol).update(
+            session = session_date,
+            last_price = lp,
+            futures_pos = ps_res[0],
+            max_prc_stop = ps_res[1],
+            amount_of_position = ps_res[2],
+        )
+
+    # Real Time API
+    # LP_DATA['symbol'] = ps.symbol
+    # LP_DATA['session'] = session_date
+    # LP_DATA['last_price'] = lp
+    # LP_DATA['futures_pos'] = ps_res[0]
+    # LP_DATA['max_prc_stop'] = ps_res[1]
+    # LP_DATA['amount_of_position'] = ps_res[2]

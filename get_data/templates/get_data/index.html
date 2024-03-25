@@ -65,12 +65,12 @@ Main Page
             <div class="col">
                 {{asset.name}}
             </div>
-            <div class="col" id="price">
-                <script>
-                    const lp_data = new WebSocket();
-                    let price = document.getElementById("price");
+            <div class="col" id="{{asset}}_price">
+                <!-- <div class="col" id="{{asset}}_price" hx-get="http://127.0.0.1:8500/api/get_ajax_data" hx-trigger="every 5s"> -->
+                <!-- <script>
+                    var price = document.getElementById("{{asset}}_price");
                     price.innerHTML = 0.0033;
-                </script>
+                </script> -->
             </div>
             <div class="col">
                 high|low|inside
@@ -97,6 +97,6 @@ Main Page
 
 {% endblock %}
 {% block js %}
-<script>
-</scrip>
+<script src="https://unpkg.com/htmx.org@1.9.11"></script>
+<script type="text/javascript" src="{% static 'get_data/js/script.js' %}"></script>
 {% endblock %}
