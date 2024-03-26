@@ -26,7 +26,7 @@ class Position_Size():
         arred = lambda x,n : x*(10**n)//1/(10**n)
         half_body_risk = Position_Size.max_position_amount * (self.body_prc/100) / 2
         amount_of_position = arred((Position_Size.max_position_amount / half_body_risk), 1)
-        futures_pos = amount_of_position / self.cp
+        futures_pos = arred((amount_of_position / self.cp), 2)
         max_prc_stop = self.body_prc/2
         max_stop_long = self.cp - self.body/2
         max_stop_short = self.cp + self.body/2

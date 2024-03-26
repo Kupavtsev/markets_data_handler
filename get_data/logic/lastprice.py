@@ -2,10 +2,25 @@ import json
 import django
 from django.http import HttpResponse
 django.setup()
-from get_data.models import MP_Two_Hours, RealTimeData
+from get_data.models import MP_Two_Hours, RealTimeData, AssetSymbol, DailyPrices
 from datetime import datetime, timedelta
 
 from get_data.logic.psize import Position_Size
+
+def atr_moves(last_price, price_open, atr):
+    ticks_from_the_open = last_price - price_open
+    # price_movemnt_by_atr_in_percent = (ticks_from_the_open / price_open)*100
+    atr_price_movement_in_percent = int(ticks_from_the_open/atr*100)
+    return atr_price_movement_in_percent
+
+def two_ses_position(last_price, today_two_ses):
+    if last_price >= today_two_ses[0] or last_price <= today_two_ses[1]:
+        relative_position = True        # higher
+    # elif last_price <= today_two_ses[1]:
+    #     relative_position = None        # lower
+    else:
+        relative_position = False        # inside
+    return relative_position
 
 # lp last price
 def work_with_last_price(symbol, session_date, lp):
@@ -13,6 +28,16 @@ def work_with_last_price(symbol, session_date, lp):
     # YDS : str = (session_date-timedelta(days=1))
     session_date = datetime.strptime(session_date, "%Y-%m-%d")
     YDS : str = (session_date-timedelta(days=1)).strftime("%Y-%m-%d")
+    # Today Data
+    asset : str = AssetSymbol.objects.get(name=symbol)
+    today_data = DailyPrices.objects.get(symbol=asset, session_date=session_date)
+    today_open = today_data.price_day_open
+    today_atr = today_data.day_average_true_range
+    today_atr_levels = today_data.atr_levels
+    # today_two_ses = today_data.prev_two_ses_high_low
+    today_two_ses = two_ses_position(lp, today_data.prev_two_ses_high_low)
+    atr_prc_passed = atr_moves(lp, today_open, today_atr)
+    # Yesterday data
     mp_2h : isinstance = MP_Two_Hours.objects.get(symbol=symbol, session=YDS)
     body_size_ticks = mp_2h.body_size_ticks
     body_prc = mp_2h.body_size_percent
@@ -29,6 +54,8 @@ def work_with_last_price(symbol, session_date, lp):
         futures_pos = ps_res[0],
         max_prc_stop = ps_res[1],
         amount_of_position = ps_res[2],
+        atr_prc_passed=atr_prc_passed,
+        today_two_ses=today_two_ses
     )
     if not RealTimeData.objects.filter(symbol=symbol):
         rt_data.save()
@@ -39,6 +66,8 @@ def work_with_last_price(symbol, session_date, lp):
             futures_pos = ps_res[0],
             max_prc_stop = ps_res[1],
             amount_of_position = ps_res[2],
+            atr_prc_passed = atr_prc_passed,
+            today_two_ses=today_two_ses
         )
 
     # Real Time API

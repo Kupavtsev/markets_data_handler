@@ -27,9 +27,7 @@ def realtime_data(bind=True):
     # print('response: ', start_of_candle, last)
     end = time.time()
     time_taken_req =  end - start
-    # print('send responde to func=> cp,2hmp, atr, levels')
-    # print('which is will save data to db')
-    # print('from where I will pull the data to front every 3min')
+    # lp = values[-1][4]
     for symbol, values in response.items():
         session_date = datetime.fromtimestamp(values[-1][0]/1000, timezone.utc).strftime("%Y-%m-%d")
         # print(symbol, '=>', values[-1][4], session_date)

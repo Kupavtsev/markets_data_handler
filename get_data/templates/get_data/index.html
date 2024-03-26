@@ -48,7 +48,10 @@ Main Page
                 atr_scale
             </div>
             <div class="col">
-                5M
+                fut_pos
+            </div>
+            <div class="col">
+                max%_stop
             </div>
             <div class="col">
                 2H
@@ -72,18 +75,15 @@ Main Page
                     price.innerHTML = 0.0033;
                 </script> -->
             </div>
-            <div class="col">
+            <div class="col" id="{{asset}}_two_ses">
                 high|low|inside
             </div>
-            <div class="col">
-                +35%
-            </div>
+            <div class="col" id="{{asset}}_atr_prc"></div>
             <div class="col">
                 ***||||||||
             </div>
-            <div class="col">
-                -0.25%|in|+0.15%
-            </div>
+            <div class="col" id="{{asset}}_fut_pos"></div>
+            <div class="col" id="{{asset}}_stop_prc"></div>
             <div class="col">
                 Levels? MP Formation ?
             </div>

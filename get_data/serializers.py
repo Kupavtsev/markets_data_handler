@@ -27,4 +27,6 @@ class RealTimeDataSerializer(serializers.ModelSerializer):
             'futures_pos',
             'max_prc_stop',
             'amount_of_position',
+            'atr_prc_passed',
+            'today_two_ses'
         )

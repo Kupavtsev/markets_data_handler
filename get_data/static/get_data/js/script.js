@@ -11,8 +11,8 @@ setInterval(async function loadRTData() {
       }
     
     const lastPrice = await response.json();
-    console.log(lastPrice);
-    console.log(typeof lastPrice);
+    // console.log(lastPrice);
+    // console.log(typeof lastPrice);
     // Fronend deploy
     // Light when something chanching
     for (el in lastPrice) {
@@ -26,6 +26,18 @@ setInterval(async function loadRTData() {
         // Amount of Position
         var amount = document.getElementById(asset + "_amount");
         amount.innerHTML = lastPrice[el]['amount_of_position'];
+        // Futures Position
+        var amount = document.getElementById(asset + "_fut_pos");
+        amount.innerHTML = lastPrice[el]['futures_pos'];
+        // Max position % stop
+        var amount = document.getElementById(asset + "_stop_prc");
+        amount.innerHTML = lastPrice[el]['max_prc_stop'];
+        // ATR percent passed (has moved from the open)
+        var atr_prc = document.getElementById(asset + "_atr_prc");
+        atr_prc.innerHTML = lastPrice[el]['atr_prc_passed'];
+        // Releative Position on 2 Last sessions
+        var two_ses = document.getElementById(asset + "_two_ses");
+        two_ses.innerHTML = lastPrice[el]['today_two_ses'];
     }
 
 

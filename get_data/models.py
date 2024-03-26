@@ -139,6 +139,8 @@ class RealTimeData(models.Model):
     futures_pos = models.FloatField(null=True, blank=True)
     max_prc_stop = models.FloatField(null=True, blank=True)
     amount_of_position = models.FloatField(null=True, blank=True)
+    atr_prc_passed = models.IntegerField(null=True, blank=True, default=0)
+    today_two_ses = models.BooleanField(null=True, blank=True, default=False)
 
     class Meta:
         db_table = "realtime_celery"
