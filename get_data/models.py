@@ -141,6 +141,9 @@ class RealTimeData(models.Model):
     amount_of_position = models.FloatField(null=True, blank=True)
     atr_prc_passed = models.IntegerField(null=True, blank=True, default=0)
     today_two_ses = models.BooleanField(null=True, blank=True, default=False)
+    ysd_body_level = models.FloatField(null=True, blank=True, default=0)
+    ysd_tail = models.FloatField(null=True, blank=True, default=0)
+    ysd_body_border = models.FloatField(null=True, blank=True, default=0)
 
     class Meta:
         db_table = "realtime_celery"

@@ -45,9 +45,6 @@ Main Page
                 atr_%
             </div>
             <div class="col">
-                atr_scale
-            </div>
-            <div class="col">
                 fut_pos
             </div>
             <div class="col">
@@ -78,14 +75,17 @@ Main Page
             <div class="col" id="{{asset}}_two_ses">
                 high|low|inside
             </div>
-            <div class="col" id="{{asset}}_atr_prc"></div>
             <div class="col">
-                ***||||||||
+                <div  id="{{asset}}_atr_prc"></div>
+                <!-- <div>***||||||||</div> -->
+                <meter id="{{asset}}_atr_prc_scale" min="0" low="10" optimum="50" high="90" max="100" value="0"></meter>
             </div>
             <div class="col" id="{{asset}}_fut_pos"></div>
             <div class="col" id="{{asset}}_stop_prc"></div>
             <div class="col">
-                Levels? MP Formation ?
+                <div id="{{asset}}_ysd_body_level">Open</div>
+                <div id="{{asset}}_ysd_tail">TailH</div>
+                <div id="{{asset}}_ysd_body_border">BodyH</div>
             </div>
             <div class="col" id="{{asset}}_amount"></div>
         </div>

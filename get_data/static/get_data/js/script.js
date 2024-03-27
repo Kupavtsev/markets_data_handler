@@ -35,9 +35,19 @@ setInterval(async function loadRTData() {
         // ATR percent passed (has moved from the open)
         var atr_prc = document.getElementById(asset + "_atr_prc");
         atr_prc.innerHTML = lastPrice[el]['atr_prc_passed'];
+        var atr_prc_scale = document.getElementById(asset + "_atr_prc_scale");
+        atr_prc_scale.value = lastPrice[el]['atr_prc_passed'];
+        console.log(atr_prc_scale.value)
         // Releative Position on 2 Last sessions
         var two_ses = document.getElementById(asset + "_two_ses");
         two_ses.innerHTML = lastPrice[el]['today_two_ses'];
+        // Yesterday Body Level
+        var ysd_body_level = document.getElementById(asset + "_ysd_body_level");
+        ysd_body_level.innerHTML = lastPrice[el]['ysd_body_level'];
+        var ysd_tail = document.getElementById(asset + "_ysd_tail");
+        ysd_tail.innerHTML = lastPrice[el]['ysd_tail'];
+        var ysd_body_border = document.getElementById(asset + "_ysd_body_border");
+        ysd_body_border.innerHTML = lastPrice[el]['ysd_body_border'];
     }
 
 

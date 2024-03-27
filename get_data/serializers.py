@@ -28,5 +28,8 @@ class RealTimeDataSerializer(serializers.ModelSerializer):
             'max_prc_stop',
             'amount_of_position',
             'atr_prc_passed',
-            'today_two_ses'
+            'today_two_ses',
+            'ysd_body_level',
+            'ysd_tail',
+            'ysd_body_border'
         )
