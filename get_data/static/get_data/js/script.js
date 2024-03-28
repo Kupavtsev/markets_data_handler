@@ -11,18 +11,14 @@ setInterval(async function loadRTData() {
       }
     
     const lastPrice = await response.json();
-    // console.log(lastPrice);
-    // console.log(typeof lastPrice);
     // Fronend deploy
     // Light when something chanching
     for (el in lastPrice) {
         // document.getElementById(lastPrice[el]['symbol'] + "_price").innerHTML= [el]['last_price'];
         // Last Price
         asset = lastPrice[el]['symbol']
-        // console.log(asset);
         var price = document.getElementById(asset + "_price");
         price.innerHTML = lastPrice[el]['last_price']
-        // console.log(price)
         // Amount of Position
         var amount = document.getElementById(asset + "_amount");
         amount.innerHTML = lastPrice[el]['amount_of_position'];
@@ -37,10 +33,16 @@ setInterval(async function loadRTData() {
         atr_prc.innerHTML = lastPrice[el]['atr_prc_passed'];
         var atr_prc_scale = document.getElementById(asset + "_atr_prc_scale");
         atr_prc_scale.value = lastPrice[el]['atr_prc_passed'];
-        console.log(atr_prc_scale.value)
         // Releative Position on 2 Last sessions
         var two_ses = document.getElementById(asset + "_two_ses");
         two_ses.innerHTML = lastPrice[el]['today_two_ses'];
+        // ATRs levels
+        var half_atr = document.getElementById(asset + "_half_atr");
+        half_atr.innerHTML = lastPrice[el]['atr_levels'][1];
+        var three_quarter_atr = document.getElementById(asset + "_three_quarter_atr");
+        three_quarter_atr.innerHTML = lastPrice[el]['atr_levels'][2];
+        var point_atr = document.getElementById(asset + "_point_atr");
+        point_atr.innerHTML = lastPrice[el]['atr_levels'][3];
         // Yesterday Body Level
         var ysd_body_level = document.getElementById(asset + "_ysd_body_level");
         ysd_body_level.innerHTML = lastPrice[el]['ysd_body_level'];
@@ -48,10 +50,20 @@ setInterval(async function loadRTData() {
         ysd_tail.innerHTML = lastPrice[el]['ysd_tail'];
         var ysd_body_border = document.getElementById(asset + "_ysd_body_border");
         ysd_body_border.innerHTML = lastPrice[el]['ysd_body_border'];
+        
+        // Maching levels
+        var atr_day_prc = 10;
+        var difForCompare = atr_day_prc/25000;     // coz this is %
+        var levels_atr = lastPrice[el]['atr_levels']
+        for (level in levels_atr) {
+            console.log(lastPrice[el]['atr_levels'][level])
+            if ( (levels_atr[level]*difForCompare)+levels_atr[level] ) {
+
+            }
+        }
     }
 
-
-    return lastPrice;
+    // return lastPrice;
 // };
 }, 30000);
 // loadRTData()

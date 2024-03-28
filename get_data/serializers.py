@@ -31,5 +31,6 @@ class RealTimeDataSerializer(serializers.ModelSerializer):
             'today_two_ses',
             'ysd_body_level',
             'ysd_tail',
-            'ysd_body_border'
+            'ysd_body_border',
+            'atr_levels'
         )

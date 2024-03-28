@@ -144,6 +144,7 @@ class RealTimeData(models.Model):
     ysd_body_level = models.FloatField(null=True, blank=True, default=0)
     ysd_tail = models.FloatField(null=True, blank=True, default=0)
     ysd_body_border = models.FloatField(null=True, blank=True, default=0)
+    atr_levels = ArrayField(base_field=models.FloatField(null=True, blank=True), default=list, null=True, blank=True)
 
     class Meta:
         db_table = "realtime_celery"

@@ -4,6 +4,7 @@
 Main Page
 {% endblock %}
 {% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'get_data/css/levels.css' %}">
 <style>
 </style>
 {% endblock %}
@@ -44,18 +45,11 @@ Main Page
             <div class="col">
                 atr_%
             </div>
-            <div class="col">
-                fut_pos
-            </div>
-            <div class="col">
-                max%_stop
-            </div>
-            <div class="col">
-                2H
-            </div>
-            <div class="col">
-                pos_amount$
-            </div>
+            <div class="col">fut_pos</div>
+            <div class="col">stop%</div>
+            <div class="col">A_levs</div>
+            <div class="col">2H</div>
+            <div class="col">pos_amount$</div>
         </div>
         {% for asset in assets %}
         <div class="row">
@@ -82,6 +76,11 @@ Main Page
             </div>
             <div class="col" id="{{asset}}_fut_pos"></div>
             <div class="col" id="{{asset}}_stop_prc"></div>
+            <div class="col">
+                <div id="{{asset}}_half_atr">0.5</div>
+                <div id="{{asset}}_three_quarter_atr">0.75</div>
+                <div id="{{asset}}_point_atr">1</div>
+            </div>
             <div class="col">
                 <div id="{{asset}}_ysd_body_level">Open</div>
                 <div id="{{asset}}_ysd_tail">TailH</div>

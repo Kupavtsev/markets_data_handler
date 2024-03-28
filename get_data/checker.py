@@ -7,6 +7,8 @@ from dateutil.tz import tzutc
 
 from .models import ATR, AssetSymbol, DailyPrices, Two_Hours
 
+
+arred = lambda x,n : x*(10**n)//1/(10**n)
 # today = datetime.utcnow()
 # today = datetime.now(datetime.UTC)
 # today_string = today.strftime("%Y-%m-%d")
@@ -158,13 +160,13 @@ def atr_calc(asset):
     count = float(today_atr)*0.25
     start = count  # you need to change start on every cycle
     atr_levels = []
-    for i in range(12):     # for plus atr move
-        res = object.price_day_open + start
+    for i in range(12):     # for plus atr move.    _ i?
+        res = arred((object.price_day_open + start), 6)
         atr_levels.append(res)
         start += count
     start = count
     for i in range(12):     # for minus atr move
-        res = object.price_day_open - start
+        res = arred((object.price_day_open - start), 6)
         atr_levels.append(res)
         start += count
     object.atr_levels = atr_levels

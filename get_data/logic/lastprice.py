@@ -37,6 +37,12 @@ def ysd_body(lp, today_open, body_size_ticks, top_tail, body, bottom_tail):
 
     return (ysd_body_level, ysd_tail, ysd_body_border)
 
+def atr_levels_current(lp, today_open, today_atr_levels):
+    if lp > today_open:
+        levels = today_atr_levels[0:12]
+    else : levels = today_atr_levels[12:]
+    return levels
+
 # lp last price
 def work_with_last_price(symbol, session_date, lp):
     print('work_with_last_price')
@@ -49,7 +55,6 @@ def work_with_last_price(symbol, session_date, lp):
     today_open = today_data.price_day_open
     today_atr = today_data.day_average_true_range
     today_atr_levels = today_data.atr_levels
-    # today_two_ses = today_data.prev_two_ses_high_low
     today_two_ses = two_ses_position(lp, today_data.prev_two_ses_high_low)
     atr_prc_passed = atr_moves(lp, today_open, today_atr)
     # Yesterday data
@@ -66,6 +71,7 @@ def work_with_last_price(symbol, session_date, lp):
     #     ysd_body_level = today_open + body_size_ticks
     # else: ysd_body_level = today_open - body_size_ticks
     ysd_body_level = ysd_body(lp, today_open, body_size_ticks, top_tail, body, bottom_tail)
+    atr_levels = atr_levels_current(lp, today_open, today_atr_levels)       # 12 levels in the side of price
     ps = Position_Size(symbol, lp, body_size_ticks, body_prc, today_atr)
     ps_res = ps.pos_size()
     print(f'{ps.symbol}, "lp: {lp}", {ps_res[2]}')
@@ -83,6 +89,7 @@ def work_with_last_price(symbol, session_date, lp):
         ysd_body_level=ysd_body_level[0],
         ysd_tail = ysd_body_level[1],
         ysd_body_border = ysd_body_level[2],
+        atr_levels = atr_levels,
     )
     if not RealTimeData.objects.filter(symbol=symbol):
         rt_data.save()
@@ -98,6 +105,7 @@ def work_with_last_price(symbol, session_date, lp):
             ysd_body_level=ysd_body_level[0],
             ysd_tail = ysd_body_level[1],
             ysd_body_border = ysd_body_level[2],
+            atr_levels = atr_levels,
         )
 
     # Real Time API
